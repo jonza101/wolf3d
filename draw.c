@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 13:42:48 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/28 15:28:46 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/01 14:25:08 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_draw_all(t_mlx *mlx)
 {
 	ft_draw_line(mlx, mlx->points[0].x, mlx->points[0].y, mlx->points[1].x, mlx->points[1].y, 0xFF00FF);
 	ft_image(mlx, mlx->player->x, mlx->player->y, 0xFF00FF);
-	ft_draw_line(mlx, mlx->player->dir_xo, mlx->player->dir_yo, mlx->player->dir_x, mlx->player->dir_y, 0xFFFFFF);
+	//ft_draw_line(mlx, mlx->player->dir_xo, mlx->player->dir_yo, mlx->player->dir_x, mlx->player->dir_y, 0xFFFFFF);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }
 

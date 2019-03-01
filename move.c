@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 14:01:23 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/28 15:47:13 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/01 14:25:26 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,33 @@ void	ft_view(t_mlx *mlx, int dir)
 
 	ft_reset_img(mlx);
 
+	// mlx->player->pov -= angle * 180 / M_PI;
+	// (mlx->player->pov > 359) ? mlx->player->pov = 0 : 1;
+	// (mlx->player->pov < 0) ? mlx->player->pov = 359 : 1;
+	// printf("pov %f\n", mlx->player->pov);
 
-	mlx->player->dir_xo = mlx->player->x + (mlx->player->dir_xo - mlx->player->x) * cos(angle) - (mlx->player->dir_yo - mlx->player->y) * sin(angle);
-	mlx->player->dir_yo = mlx->player->y + (mlx->player->dir_xo - mlx->player->x) * sin(angle) + (mlx->player->dir_yo - mlx->player->y) * cos(angle);
+	mlx->player->pov += 0.1 * dir;
+	printf("pov %f\n", mlx->player->pov);
 
-	mlx->player->dir_x = mlx->player->x + (mlx->player->dir_x - mlx->player->x) * cos(angle) - (mlx->player->dir_y - mlx->player->y) * sin(angle);
-	mlx->player->dir_y = mlx->player->y + (mlx->player->dir_x - mlx->player->x) * sin(angle) + (mlx->player->dir_y - mlx->player->y) * cos(angle);
+	mlx->player->dir_xo = mlx->player->x + (mlx->player->dir_xo - mlx->player->x) * cos(mlx->player->pov) - (mlx->player->dir_yo - mlx->player->y) * sin(mlx->player->pov);
+	mlx->player->dir_yo = mlx->player->y + (mlx->player->dir_xo - mlx->player->x) * sin(mlx->player->pov) + (mlx->player->dir_yo - mlx->player->y) * cos(mlx->player->pov);
 
+	mlx->player->dir_x = mlx->player->x + (mlx->player->dir_x - mlx->player->x) * cos(mlx->player->pov) - (mlx->player->dir_y - mlx->player->y) * sin(mlx->player->pov);
+	mlx->player->dir_y = mlx->player->y + (mlx->player->dir_x - mlx->player->x) * sin(mlx->player->pov) + (mlx->player->dir_y - mlx->player->y) * cos(mlx->player->pov);
+
+	ft_view_dir(mlx);
 
 	ft_draw_all(mlx);
 }
 
 void	ft_player_move(t_mlx *mlx, int dir)
 {
-	int	angle_x;
-	int angle_y;
-	int error;
-
-	angle_x = fabs(mlx->player->dir_x - mlx->player->dir_xo);
-	angle_y = fabs(mlx->player->dir_y - mlx->player->dir_yo);
-	error = angle_x - angle_y;
-
 	ft_reset_img(mlx);
 
-	if (error * 2 > -angle_y)
-		mlx->player->x += 1 * dir;
-	if (error * 2 < angle_x)
-		mlx->player->y += 1 * dir;
+	mlx->player->x += cos(mlx->player->pov) * 5;
+	mlx->player->y += sin(mlx->player->pov) * 5;
 
-	ft_view(mlx, 0);
+	ft_view_dir(mlx);	
 
 	ft_draw_all(mlx);
 }
