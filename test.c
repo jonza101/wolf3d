@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 13:23:11 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/01 14:15:31 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/01 17:05:34 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ void	ft_view_dir(t_mlx *mlx)
 
 void	ft_start(t_mlx *mlx)
 {
-	ft_draw_line(mlx, 1460, 100 , 1460, 980, 0xFF00FF);
 	mlx->points[0].x = 1460;
 	mlx->points[0].y = 100;
 	mlx->points[1].x = 1460;
 	mlx->points[1].y = 980;
-	
+	ft_draw_line(mlx, mlx->points[0].x, mlx->points[0].y, mlx->points[1].x, mlx->points[1].y, 0xFF00FF);
+
 	mlx->player->x = W / 2;
 	mlx->player->y = H / 2;
 	mlx->player->pov = 0;
-	
+
 	ft_view_dir(mlx);
 
 	ft_image(mlx, mlx->player->x, mlx->player->y, 0xFF00FF);
@@ -46,7 +46,8 @@ int		key_press(int keycode, t_mlx *mlx)
 	(keycode == 53) ? exit(0) : 1;
 	(keycode == 0) ? ft_view(mlx, -1) : 1;
 	(keycode == 2) ? ft_view(mlx, 1) : 1;
-	(keycode == 13) ? ft_player_move(mlx, -1) : 1;
+	(keycode == 13) ? ft_player_move(mlx, 1) : 1;
+	(keycode == 1) ? ft_player_move(mlx, -1) : 1;
 	if (keycode == 15)
 	{
 		ft_reset_img(mlx);
@@ -55,7 +56,7 @@ int		key_press(int keycode, t_mlx *mlx)
 	return (0);
 }
 
-int		main()
+int		main(void)
 {
 	t_mlx *mlx;
 

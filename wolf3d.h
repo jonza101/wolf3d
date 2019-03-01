@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 14:47:22 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/01 14:15:47 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/01 16:17:31 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void			ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color);
 void			ft_image(t_mlx *mlx, int x, int y, int color);
 
 void			ft_view_dir(t_mlx *mlx);
+void			ft_rotate(t_mlx *mlx, int dir);
 
 void			ft_view(t_mlx *mlx, int dir);
 void			ft_player_move(t_mlx *mlx, int dir);
