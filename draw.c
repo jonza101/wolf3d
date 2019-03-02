@@ -5,26 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/28 13:42:48 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/01 16:42:09 by zjeyne-l         ###   ########.fr       */
+/*   Created: 2019/03/02 12:44:14 by zjeyne-l          #+#    #+#             */
+/*   Updated: 2019/03/02 12:44:25 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-
-void	ft_reset_img(t_mlx *mlx)
-{
-	mlx_destroy_image(mlx->mlx, mlx->img);
-	mlx->img = mlx_new_image(mlx->mlx, W, H);
-	mlx_clear_window(mlx->mlx, mlx->win);
-}
-
-void	ft_draw_all(t_mlx *mlx)
-{
-	ft_draw_line(mlx, mlx->points[0].x, mlx->points[0].y, mlx->points[1].x, mlx->points[1].y, 0xFF00FF);
-	ft_image(mlx, mlx->player->x, mlx->player->y, 0xFF00FF);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-}
 
 void	ft_image(t_mlx *mlx, int x, int y, int color)
 {

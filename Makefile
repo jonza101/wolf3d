@@ -6,11 +6,11 @@
 #    By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/27 13:24:35 by zjeyne-l          #+#    #+#              #
-#    Updated: 2019/03/01 17:11:51 by zjeyne-l         ###   ########.fr        #
+#    Updated: 2019/03/02 12:46:41 by zjeyne-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = test.c draw.c move.c
+SRC = test.c draw.c
 
 all:
 	gcc $(SRC) -lmlx -framework Appkit -framework OpenGL
