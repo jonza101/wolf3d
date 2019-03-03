@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 13:23:11 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/03 17:51:40 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/03 18:00:43 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_rotate(t_mlx *mlx, int dir)
 {
 	ft_refresh_img(mlx);
 
-	mlx->player->angle = 0.005 * dir;
+	mlx->player->angle += 0.005 * dir;
 	printf("angle %f\n\n", mlx->player->angle);
 
 	int i = 0;
@@ -74,14 +74,14 @@ void	ft_rotate(t_mlx *mlx, int dir)
 		tx2 = tx2 * sin(0.005 * dir) - ty2 * cos(0.005 * dir); 
 
 
-		// mlx->points[0].x = mlx->player->x - tx0;
-		// mlx->points[0].y = mlx->player->y - tz0;									// herie is the proplem (do not change the points pos)!!!
+		mlx->points[0].x = mlx->player->x - tx0;
+		mlx->points[0].y = mlx->player->y - tz0;									// HERE IS THE PROBLEM (DO NOT CHANGE THE POINT POS)!!!
 
-		// mlx->points[1].x = mlx->player->x - tx1;
-		// mlx->points[1].y = mlx->player->y - tz1;
+		mlx->points[1].x = mlx->player->x - tx1;
+		mlx->points[1].y = mlx->player->y - tz1;
 
-		// mlx->points[2].x = mlx->player->x - tx2;
-		// mlx->points[2].y = mlx->player->y - tz2;
+		mlx->points[2].x = mlx->player->x - tx2;
+		mlx->points[2].y = mlx->player->y - tz2;
 
 
 		if (i == 3) // == 3?
@@ -99,13 +99,13 @@ void	ft_rotate(t_mlx *mlx, int dir)
 					
 					if (iz0 > 0)
 					{
-						printf("less0->more\n");
+						//printf("less0->more\n");
 						tx0 = ix0;
 						tz0 = iz0;
 					}
 					else
 					{
-						printf("less0->less\n");
+						//printf("less0->less\n");
 						tx0 = ix1;
 						tz0 = iz1;
 					}
@@ -115,13 +115,13 @@ void	ft_rotate(t_mlx *mlx, int dir)
 					
 					if (iz0 > 0)
 					{
-						printf("less1->more\n");
+						//printf("less1->more\n");
 						tx1 = ix0;
 						tz1 = iz0;
 					}
 					else
 					{
-						printf("less1->less\n");
+						//printf("less1->less\n");
 						tx1 = ix1;
 						tz1 = iz1;
 					}
@@ -130,18 +130,35 @@ void	ft_rotate(t_mlx *mlx, int dir)
 				ft_intersects(tx1, tz1, tx2, tz2, -0.0001, 0.0001, -20, 5, &ix1, &iz1);
 				ft_intersects(tx1, tz1, tx2, tz2, 0.0001, 0.0001, 20, 5, &ix2, &iz2);
 
+				if (tz1 <= 0)
+				{
+					
+					if (iz1 > 0)
+					{
+						//printf("less1->more\n");
+						tx1 = ix1;
+						tz1 = iz1;
+					}
+					else
+					{
+						//printf("less1->less\n");
+						tx1 = ix2;
+						tz1 = iz2;
+					}
+				}
+
 				if (tz2 <= 0)
 				{
 					
 					if (iz1 > 0)
 					{
-						printf("less0->more\n");
-						tx2 = ix2;
-						tz2 = iz2;
+						//printf("less0->more\n");
+						tx2 = ix1;
+						tz2 = iz1;
 					}
 					else
 					{
-						printf("less0->less\n");
+						//printf("less0->less\n");
 						tx2 = ix2;
 						tz2 = iz2;
 					}
