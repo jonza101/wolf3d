@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 13:23:11 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/03 16:34:46 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/03 16:53:15 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	ft_rotate(t_mlx *mlx, int dir)
 {
 	ft_refresh_img(mlx);
 
-	mlx->player->angle = 0.005 * dir;
+	mlx->player->angle = 0.01 * dir;
 	//printf("angle %f\n\n", mlx->player->angle);
 
 	int i = 0;
 	int j = 0;
 	//printf("x %f			y %f\n", mlx->points[0].x, mlx->points[0].y);
-	while (i < 1) // 4? //
+	while (i < 4) // 4? //
 	{		
 		double tx0 = mlx->points[0].x - mlx->player->x;
 		double ty0 = mlx->points[0].y - mlx->player->y;
@@ -74,17 +74,17 @@ void	ft_rotate(t_mlx *mlx, int dir)
 		// tx2 = tx2 * sin(mlx->player->angle) - ty2 * cos(mlx->player->angle); 
 
 
-		// mlx->points[0].x = mlx->player->x - tx0;
-		// mlx->points[0].y = mlx->player->y - tz0;
+		mlx->points[0].x = mlx->player->x - tx0;
+		mlx->points[0].y = mlx->player->y - tz0;
 
-		// mlx->points[1].x = mlx->player->x - tx1;
-		// mlx->points[1].y = mlx->player->y - tz1;
+		mlx->points[1].x = mlx->player->x - tx1;
+		mlx->points[1].y = mlx->player->y - tz1;
 
 		// mlx->points[2].x = mlx->player->x - tx2;
 		// mlx->points[2].y = mlx->player->y - tz2;
 
 
-		if (i != 3) // == 3?
+		if (i == 3) // == 3?
 		{
 			if (tz0 > 0 || tz1 > 0)
 			{
@@ -169,7 +169,7 @@ void	ft_move_x(t_mlx *mlx, int dir)
 	int i = 0;
 	while (i < 3)
 	{
-		mlx->points[i].y += 15 * dir;
+		mlx->points[i].x += 15 * dir;
 		i++;
 	}
 
@@ -187,7 +187,7 @@ void	ft_move_y(t_mlx *mlx, int dir)
 	int i = 0;
 	while (i < 3)
 	{
-		mlx->points[i].x += 5 * dir;
+		mlx->points[i].y += 15 * dir;
 		i++;
 	}
 
@@ -230,8 +230,8 @@ int		key_press(int keycode, t_mlx *mlx)
 	(keycode == 53) ? exit(0) : 1;
 	(keycode == 123) ? ft_rotate(mlx, -1) : 1;
 	(keycode == 124) ? ft_rotate(mlx, 1) : 1;
-	(keycode == 13) ? ft_move_y(mlx, -1) : 1;
-	(keycode == 1) ? ft_move_y(mlx, 1) : 1;
+	(keycode == 13) ? ft_move_y(mlx, 1) : 1;
+	(keycode == 1) ? ft_move_y(mlx, -1) : 1;
 	(keycode == 0) ? ft_move_x(mlx, 1) : 1;
 	(keycode == 2) ? ft_move_x(mlx, -1) : 1;
 	if (keycode == 15)
