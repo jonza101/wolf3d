@@ -5,51 +5,55 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/27 14:47:22 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/02 12:44:35 by zjeyne-l         ###   ########.fr       */
+/*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
+/*   Updated: 2019/03/08 22:53:59 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF3D_H
 # define WOLF3D_H
 
-#include "mlx.h"
+#include "minilibx/mlx.h"
 #include <stdlib.h>
 #include <math.h>
 
-# define W 1920
-# define H 1080
+#define W 1920
+#define H 1080
 
-typedef	struct	s_points
+typedef struct	s_player
 {
-	double		x;
-	double		y;
-}				t_points;
+    double			x;
+    double			y;
+    double			pov;
+	int					fov;
+}						t_player;
 
-typedef	struct	s_player
+
+typedef struct	s_mlx
 {
-	double		x;
-	double		y;
+    void			*mlx;
+    void			*win;
+    void			*img;
+	int				*data;
+	int				bpp;
+	int				size_line;
+	int				endian;
 
-	double		angle;
-}				t_player;
+	int				proj_dist;
+	double		ray_angle;
+	double		iter_angle;
 
+	double		depth;
 
-typedef	struct	s_mlx
-{
-	void		*mlx;
-	void		*win;
+	char			**map;
 
-	void		*img;
-	int			*data;
-	int			bpp;
-	int			size_line;
-	int			endian;
+    t_player    *player;
+}						t_mlx;
 
-	t_player	*player;
-	t_points	*points;
-}				t_mlx;
+void				ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color);
+void				ft_image(t_mlx *mlx, int x, int y, int color);
 
-void	ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color);
+void				ft_ray_cast(t_mlx *mlx);
+void				ft_ray_start(t_mlx *mlx);
 
 #endif

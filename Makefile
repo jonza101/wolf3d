@@ -1,16 +1,4 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/02/27 13:24:35 by zjeyne-l          #+#    #+#              #
-#    Updated: 2019/03/02 12:46:41 by zjeyne-l         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+SRC = main.c draw.c ray.c
 
-SRC = test.c draw.c
-
-all:
-	gcc $(SRC) -lmlx -framework Appkit -framework OpenGL
+all :
+	gcc $(SRC) -lm -lmlx -lXext -lX11 -L minilibx/ -I minilibx/
