@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:20:31 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/08 15:21:21 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 19:53:24 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,31 @@ void	ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color)
 		}
 		else
 			break ;
+	}
+}
+
+void	ft_draw_circle(t_mlx *mlx, int xo, int yo, int color)
+{
+	int x = mlx->slider->radius;
+	int y = 0;
+	int radius_error = 1 - mlx->slider->radius;
+	while (x >= y)
+	{
+		ft_image(mlx, x + xo, y + yo, color);
+		ft_image(mlx, y + xo, x + yo, color);
+		ft_image(mlx, -x + xo, y + yo, color);
+		ft_image(mlx, -y + xo, x + yo, color);
+		ft_image(mlx, -x + xo, -y + yo, color);
+		ft_image(mlx, -y + xo, -x + yo, color);
+		ft_image(mlx, x + xo, -y + yo, color);
+		ft_image(mlx, y + xo, -x + yo, color);
+		y++;
+		if (radius_error < 0)
+			radius_error += 2 * y + 1;
+		else
+		{
+			x--;
+			radius_error += 2 * (y - x + 1);
+		}
 	}
 }

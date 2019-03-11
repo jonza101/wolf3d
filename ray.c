@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/09 22:25:22 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/11 21:43:21 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_ray_start(t_mlx *mlx)
 {
 	mlx->player->x = 8;
 	mlx->player->y = 8;
-	mlx->player->fov = 2;
+	mlx->player->fov = 1.57;
 	mlx->player->pov = 0;
 	mlx->depth = 32;
 	
@@ -29,7 +29,6 @@ void	ft_ray_cast(t_mlx *mlx)
 	int x;
 
 	x = 0;
-	// mlx->iter_angle = mlx->player->pov - (mlx->player->fov / 2);
 	while (x < W)
 	{
 		mlx->iter_angle = (mlx->player->pov - mlx->player->fov / 2.0) + ((double)x / (double)W) * mlx->player->fov;
@@ -37,11 +36,11 @@ void	ft_ray_cast(t_mlx *mlx)
 		int hit = 0;
 		int boundary = 0;
 		double dist_to_wall = 0;
-		double eye_x = sinf(mlx->iter_angle);
-		double eye_y = cosf(mlx->iter_angle);	
+		double eye_x = sinf(mlx->iter_angle);//unit vector x
+		double eye_y = cosf(mlx->iter_angle);//unit vector y
 		while (hit == 0 && dist_to_wall < mlx->depth)
 		{
-			dist_to_wall += 0.1;
+			dist_to_wall += 0.01;
 
 			int t_x = mlx->player->x + eye_x * dist_to_wall;
 			int t_y = mlx->player->y + eye_y * dist_to_wall;
@@ -55,7 +54,28 @@ void	ft_ray_cast(t_mlx *mlx)
 			else
 			{
 				if (mlx->map[t_y][t_x] == '1')
+				{
 					hit = 1;
+
+					// //vector
+
+					// int tx = 0;
+					// int ty;
+					// while (tx < 2)
+					// {
+					// 	ty = 0;
+					// 	while (ty < 2)
+					// 	{
+					// 		double vx = t_x + tx - mlx->player->x;
+					// 		double vy = t_y + ty - mlx->player->y;
+					// 		double d = sqrt(vx * vx + vy * vy);
+					// 		double dot = (eye_x * vx / d) + (eye_y * vy / d);
+							
+					// 		ty++;
+					// 	}
+					// 	tx++;
+					// }
+				}
 			}
 		}
 		int ceiling = (double)(H / 2.0) - H / (double)dist_to_wall;
