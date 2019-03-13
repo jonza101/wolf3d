@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/11 21:43:21 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/13 23:01:17 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,60 +36,63 @@ void	ft_ray_cast(t_mlx *mlx)
 		int hit = 0;
 		int boundary = 0;
 		double dist_to_wall = 0;
-		double eye_x = sinf(mlx->iter_angle);//unit vector x
-		double eye_y = cosf(mlx->iter_angle);//unit vector y
+		double sample_x = 0;
+		double eye_angle_x = sinf(mlx->iter_angle);//unit vector x
+		double eye_angle_y = cosf(mlx->iter_angle);//unit vector y
 		while (hit == 0 && dist_to_wall < mlx->depth)
 		{
 			dist_to_wall += 0.01;
 
-			int t_x = mlx->player->x + eye_x * dist_to_wall;
-			int t_y = mlx->player->y + eye_y * dist_to_wall;
+			int t_x = mlx->player->x + (double)eye_angle_x * dist_to_wall;
+			int t_y = mlx->player->y + (double)eye_angle_y * dist_to_wall;
 
 			// out of bounds check
-			if (t_x < 0 || t_x >= 16/*map width*/ || t_y < 0 || t_y >= 16/*map height*/)
+			if (t_x < 0 || t_x >= 16/*map width*/ || t_y < 0 || t_y >= 24/*map height*/)
 			{
 				hit = 1;
 				dist_to_wall = mlx->depth;
 			}
 			else
 			{
-				if (mlx->map[t_y][t_x] == '1')
+				if (mlx->map[t_y][t_x] == WALL)
 				{
 					hit = 1;
 
-					// //vector
+					double block_mid_x = (double)t_x + 0.5;
+					double block_mid_y = (double)t_y + 0.5;
 
-					// int tx = 0;
-					// int ty;
-					// while (tx < 2)
-					// {
-					// 	ty = 0;
-					// 	while (ty < 2)
-					// 	{
-					// 		double vx = t_x + tx - mlx->player->x;
-					// 		double vy = t_y + ty - mlx->player->y;
-					// 		double d = sqrt(vx * vx + vy * vy);
-					// 		double dot = (eye_x * vx / d) + (eye_y * vy / d);
-							
-					// 		ty++;
-					// 	}
-					// 	tx++;
-					// }
+					double point_x = mlx->player->x + eye_angle_x * dist_to_wall;
+					double point_y = mlx->player->y + eye_angle_y * dist_to_wall;
+
+					float angle = atan2f(point_y - block_mid_y, point_x - block_mid_x);
+
+					if (angle >= -3.14159 * 0.25 && angle < 3.14159 * 0.25)
+						sample_x = point_y - (double)t_y;
+					if (angle >= 3.14159 * 0.25 && angle < 3.14159 * 0.75)
+						sample_x = point_x - (double)t_x;
+					if (angle < -3.14159 * 0.25 && angle >= -3.14159 * 0.75)
+						sample_x = point_x - (double)t_x;
+					if (angle >= 3.14159 * 0.75 || angle < -3.14159 * 0.75)
+						sample_x = point_y - (double)t_y;
 				}
 			}
 		}
 		int ceiling = (double)(H / 2.0) - H / (double)dist_to_wall;
 		int floor = H - ceiling;
 		int shade;
-
-		if (dist_to_wall < mlx->depth / 4)
-			shade = 0xc737373;
+		
+		if (dist_to_wall < mlx->depth / 6)
+			shade = 0xb3b3b3;
+		else if (dist_to_wall < mlx->depth / 5)
+			shade = 0x808080;
+		else if (dist_to_wall < mlx->depth / 4)
+			shade = 0x666666;
 		else if (dist_to_wall < mlx->depth / 3)
-			shade = 0x595959;
+			shade = 0x4d4d4d;
 		else if (dist_to_wall < mlx->depth / 2)
-			shade = 0x404040;
+			shade = 0x333333;
 		else
-			shade = 0x262626;
+			shade = 0x242424;
 
 		int y = 0;
 		while (y < H)
@@ -97,7 +100,11 @@ void	ft_ray_cast(t_mlx *mlx)
 			if (y <= ceiling)
 				ft_image(mlx, x, y, 0x15171a);
 			else if (y > ceiling && y <= floor)
-				ft_image(mlx, x, y, shade);
+			{
+				double sample_y = ((double)y - (double)ceiling) / ((double)floor - (double)ceiling);
+				ft_image(mlx, x, y, mlx->textures[0][ft_texture_sampling(mlx, sample_x, sample_y)]);
+				//ft_image(mlx, x, y, shade);
+			}
 			else
 			{
 				// double sh = 1.0 - (((double)y - H / 2.0) / ((double)H / 2.0));
@@ -117,4 +124,5 @@ void	ft_ray_cast(t_mlx *mlx)
 		}
 		x++;
 	}
+	ft_draw_cross(mlx);
 }

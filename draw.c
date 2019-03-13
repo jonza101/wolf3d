@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:20:31 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/11 19:53:24 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/13 19:24:52 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,24 @@ void	ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color)
 		}
 		else
 			break ;
+	}
+}
+
+void	ft_draw_cross(t_mlx *mlx )
+{
+	int i;
+
+	i = W / 2 - 2;
+	while (i <= W / 2 + 2)
+	{
+		ft_image(mlx, i, H / 2, 0xFFFFFF);
+		i++;
+	}
+	i = H / 2 - 2;
+	while (i <= H / 2 + 2)
+	{
+		ft_image(mlx, W / 2, i, 0xFFFFFF);
+		i++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/11 19:53:14 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/13 22:41:17 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@
 #include "minilibx/mlx.h"
 #include <stdlib.h>
 #include <math.h>
+#include <unistd.h>
+#include <fcntl.h>
 
-#define W 1920
-#define H 1080
+#define W 1280
+#define H 720
+
+#define WALL '#'
 
 typedef struct	s_slider
 {
@@ -59,17 +63,24 @@ typedef struct	s_mlx
 
 	char			**map;
 
+	int				**textures;
+
     t_player    *player;
 	t_slider	*slider;
 }						t_mlx;
 
 void				ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color);
 void				ft_draw_circle(t_mlx *mlx, int xo, int yo, int color);
+void				ft_draw_cross(t_mlx *mlx );
 
 void				ft_image(t_mlx *mlx, int x, int y, int color);
 
 void				ft_ray_cast(t_mlx *mlx);
 void				ft_ray_start(t_mlx *mlx);
+
+void				ft_read_textures(t_mlx *mlx);
+
+int					ft_texture_sampling(t_mlx *mlx, double sample_x, double sample_y);
 
 void				ft_slider_line(t_mlx *mlx, int mouse_x);
 
