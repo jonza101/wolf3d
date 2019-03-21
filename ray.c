@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/21 18:39:29 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/21 21:56:08 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_ray_start(t_mlx *mlx)
 {
-	mlx->player->x = 8;
-	mlx->player->y = 8;
-	mlx->player->fov = 1.02;	//1.57			//1.02 -> 2.09
-	mlx->player->pov = 0;
+	mlx->player->x = 12;
+	mlx->player->y = 7.5;
+	mlx->player->fov = 1.57;	//1.57			//1.02 -> 2.09
+	mlx->player->pov = -1.6;
 	mlx->depth = 32;
 }
 
@@ -44,16 +44,23 @@ void	ft_ray_cast(t_mlx *mlx)
 			int t_y = mlx->player->y + (double)eye_angle_y * dist_to_wall;
 
 			// out of bounds check
-			if (t_x < 0 || t_x >= 16/*map width*/ || t_y < 0 || t_y >= 24/*map height*/)
+			if (t_x < 0 || t_x >= 15/*map width*/ || t_y < 0 || t_y >= 14/*map height*/)
 			{
 				hit = 1;
 				dist_to_wall = mlx->depth;
+				//printf("out\n");
 			}
 			else
 			{
-				if (mlx->map[t_y][t_x] == WALL)
+				if (ft_tiles_check(mlx->map, t_x, t_y))
 				{
+					//printf("asd\n");
+					mlx->tile_index = -1;
+					mlx->tile_index = ft_get_tile_index(mlx->map[t_y][t_x]);
+					//printf("%c\n", mlx->map[t_y][t_x]);
+					//printf("index %d\n", mlx->tile_index);
 					hit = 1;
+					//printf("asd\n");
 
 					double block_mid_x = (double)t_x + 0.5;
 					double block_mid_y = (double)t_y + 0.5;
@@ -74,50 +81,21 @@ void	ft_ray_cast(t_mlx *mlx)
 				}
 			}
 		}
-		int ceiling = (double)(H / 2.0) - H / (double)dist_to_wall;
+		double ceiling = (double)(H / 2.0) - H / (double)dist_to_wall / mlx->player->fov;
 		int floor = H - ceiling;
-		int shade;
-		
-		if (dist_to_wall < mlx->depth / 6)
-			shade = 0xb3b3b3;
-		else if (dist_to_wall < mlx->depth / 5)
-			shade = 0x808080;
-		else if (dist_to_wall < mlx->depth / 4)
-			shade = 0x666666;
-		else if (dist_to_wall < mlx->depth / 3)
-			shade = 0x4d4d4d;
-		else if (dist_to_wall < mlx->depth / 2)
-			shade = 0x333333;
-		else
-			shade = 0x242424;
 
 		int y = 0;
 		while (y < H)
 		{
 			if (y <= ceiling)
-				ft_image(mlx, x, y, 0x15171a);
+				ft_image(mlx, x, y, 0x383838);
 			else if (y > ceiling && y <= floor)
 			{
 				double sample_y = ((double)y - (double)ceiling) / ((double)floor - (double)ceiling);
-				//printf("x %f		y %f\n", sample_x, sample_y);
-				ft_image(mlx, x, y, ft_texture_sampling(mlx->textures, sample_x, sample_y));
-				//ft_image(mlx, x, y, shade);
+				ft_image(mlx, x, y, ft_texture_sampling(mlx->textures[mlx->tile_index], sample_x, sample_y));
 			}
 			else
-			{
-				// double sh = 1.0 - (((double)y - H / 2.0) / ((double)H / 2.0));
-				// if (sh < 0.25)
-				// 	shade = 0x596669;
-				// else if (sh < 0.5)
-				// 	shade = 0x414a4d;
-				// else if (sh < 0.75)
-				// 	shade = 0x2a3133;
-				// else if (sh < 0.9)
-				// 	shade = 0x332318;
-				// else
-				// 	shade = 0x131617;
-				ft_image(mlx, x, y, 0x15171a);
-			}
+				ft_image(mlx, x, y, 0x6b6f6e);
 			y++;
 		}
 		x++;

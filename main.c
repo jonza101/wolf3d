@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/18 19:47:24 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/21 22:00:43 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,40 +24,30 @@ void ft_reset_image(t_mlx *mlx)
 
 void ft_fill_map(t_mlx *mlx)
 {
-	mlx->map[0] = "################";
-	mlx->map[1] = "#00000000000#00#";
-	mlx->map[2] = "#0000000000#000#";
-	mlx->map[3] = "#####0000####00#";
-	mlx->map[4] = "#000#0000#00000#";
-	mlx->map[5] = "#0000000##00000#";
-	mlx->map[6] = "#00000000000#00#";
-	mlx->map[7] = "#0000000000#####";
-	mlx->map[8] = "###00000000000##";
-	mlx->map[9] = "#00000000000000#";
-	mlx->map[10] = "####00000000000#";
-	mlx->map[11] = "#00#0000000#000#";
-	mlx->map[12] = "#00#0000000#####";
-	mlx->map[13] = "#00000000000#00#";
-	mlx->map[14] = "#000000#0000#00#";
-	mlx->map[15] = "#000000#0000000#";
-	mlx->map[16] = "#00#######00000#";
-	mlx->map[17] = "#000#0000000000#";
-	mlx->map[18] = "#####0000000000#";
-	mlx->map[19] = "#000##0000##000#";
-	mlx->map[20] = "#0000#0000##000#";
-	mlx->map[21] = "##0000000000000#";
-	mlx->map[22] = "####00000000000#";
-	mlx->map[23] = "################";
+	mlx->map[0] = "112121111111121";
+	mlx->map[1] = "200001000100002";
+	mlx->map[2] = "100000000000002";
+	mlx->map[3] = "100001000100002";
+	mlx->map[4] = "200002000200002";
+	mlx->map[5] = "112112000111111";
+	mlx->map[6] = "100001000100001";
+	mlx->map[7] = "200000000000002";
+	mlx->map[8] = "100001000100001";
+	mlx->map[9] = "122112000211211";
+	mlx->map[10] = "100000000000001";
+	mlx->map[11] = "200000000000001";
+	mlx->map[12] = "100000000000001";
+	mlx->map[13] = "1#21#12S12#21#1";
 }
 
 void ft_map(t_mlx *mlx)
 {
 	int i;
 	i = 0;
-	mlx->map = (char **)malloc(sizeof(char *) * 24);
+	mlx->map = (char **)malloc(sizeof(char *) * 14);
 	while (i < 5)
 	{
-		mlx->map[i] = (char *)malloc(sizeof(char) * 16);
+		mlx->map[i] = (char *)malloc(sizeof(char) * 15);
 		i++;
 	}
 	ft_fill_map(mlx);
@@ -133,6 +123,22 @@ int key_press(int keycode, t_mlx *mlx)
 	//printf("%d\n", keycode);
 	(keycode == 65307) ? exit(0) : 1;
 
+	if (keycode == 61)
+	{
+		ft_reset_image(mlx);
+		mlx->player->fov += 0.1;
+		ft_ray_cast(mlx);
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+	}
+
+	if (keycode == 45)
+	{
+		ft_reset_image(mlx);
+		mlx->player->fov -= 0.1;
+		ft_ray_cast(mlx);
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+	}
+
 	if (keycode == 65361)
 	{
 		ft_reset_image(mlx);
@@ -153,9 +159,14 @@ int key_press(int keycode, t_mlx *mlx)
 	{
 		ft_reset_image(mlx);
 
-		if (mlx->map[(int)mlx->player->y][(int)(mlx->player->x + sinf(mlx->player->pov) * 0.4)] != WALL)
+		// if (mlx->map[(int)mlx->player->y][(int)(mlx->player->x + sinf(mlx->player->pov) * 0.4)] != WALL)
+		// 	mlx->player->x += sinf(mlx->player->pov) * 0.4;
+		// if (mlx->map[(int)(mlx->player->y + cosf(mlx->player->pov) * 0.4)][(int)mlx->player->x] != WALL)
+		// 	mlx->player->y += cosf(mlx->player->pov) * 0.4;
+
+		if ((ft_walls_check(mlx->map, (int)(mlx->player->x + sinf(mlx->player->pov) * 0.4), (int)mlx->player->y)))
 			mlx->player->x += sinf(mlx->player->pov) * 0.4;
-		if (mlx->map[(int)(mlx->player->y + cosf(mlx->player->pov) * 0.4)][(int)mlx->player->x] != WALL)
+		if (ft_walls_check(mlx->map, (int)mlx->player->x, (int)(mlx->player->y + cosf(mlx->player->pov) * 0.4)))
 			mlx->player->y += cosf(mlx->player->pov) * 0.4;
 		ft_ray_cast(mlx);
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
@@ -165,9 +176,14 @@ int key_press(int keycode, t_mlx *mlx)
 	{
 		ft_reset_image(mlx);
 
-		if (mlx->map[(int)mlx->player->y][(int)(mlx->player->x - sinf(mlx->player->pov) * 0.4)] != WALL)
+		// if (mlx->map[(int)mlx->player->y][(int)(mlx->player->x - sinf(mlx->player->pov) * 0.4)] != WALL)
+		// 	mlx->player->x -= sinf(mlx->player->pov) * 0.4;
+		// if (mlx->map[(int)(mlx->player->y - cosf(mlx->player->pov) * 0.4)][(int)mlx->player->x] != WALL)
+		// 	mlx->player->y -= cosf(mlx->player->pov) * 0.4;
+
+		if ((ft_walls_check(mlx->map, (int)(mlx->player->x - sinf(mlx->player->pov) * 0.4), (int)mlx->player->y)))
 			mlx->player->x -= sinf(mlx->player->pov) * 0.4;
-		if (mlx->map[(int)(mlx->player->y - cosf(mlx->player->pov) * 0.4)][(int)mlx->player->x] != WALL)
+		if (ft_walls_check(mlx->map, (int)mlx->player->x, (int)(mlx->player->y - cosf(mlx->player->pov) * 0.4)))
 			mlx->player->y -= cosf(mlx->player->pov) * 0.4;
 		ft_ray_cast(mlx);
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
@@ -177,9 +193,14 @@ int key_press(int keycode, t_mlx *mlx)
 	{
 		ft_reset_image(mlx);
 
-		if (mlx->map[(int)mlx->player->y][(int)(mlx->player->x + cosf(mlx->player->pov) * 0.25)] != WALL)
+		// if (mlx->map[(int)mlx->player->y][(int)(mlx->player->x + cosf(mlx->player->pov) * 0.25)] != WALL)
+		// 	mlx->player->x += cosf(mlx->player->pov) * 0.25;
+		// if (mlx->map[(int)(mlx->player->y - sinf(mlx->player->pov) * 0.25)][(int)mlx->player->x] != WALL)
+		// 	mlx->player->y -= sinf(mlx->player->pov) * 0.25;
+
+		if (ft_walls_check(mlx->map, (int)(mlx->player->x + cosf(mlx->player->pov) * 0.25), (int)mlx->player->y))
 			mlx->player->x += cosf(mlx->player->pov) * 0.25;
-		if (mlx->map[(int)(mlx->player->y - sinf(mlx->player->pov) * 0.25)][(int)mlx->player->x] != WALL)
+		if (ft_walls_check(mlx->map, (int)mlx->player->x, (int)(mlx->player->y - sinf(mlx->player->pov) * 0.25)))
 			mlx->player->y -= sinf(mlx->player->pov) * 0.25;
 		ft_ray_cast(mlx);
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
@@ -189,9 +210,14 @@ int key_press(int keycode, t_mlx *mlx)
 	{
 		ft_reset_image(mlx);
 
-		if (mlx->map[(int)mlx->player->y][(int)(mlx->player->x - cosf(mlx->player->pov) * 0.25)] != WALL)
+		// if (mlx->map[(int)mlx->player->y][(int)(mlx->player->x - cosf(mlx->player->pov) * 0.25)] != WALL)
+		// 	mlx->player->x -= cosf(mlx->player->pov) * 0.25;
+		// if (mlx->map[(int)(mlx->player->y + sinf(mlx->player->pov) * 0.25)][(int)mlx->player->x] != WALL)
+		// 	mlx->player->y += sinf(mlx->player->pov) * 0.25;
+
+		if (ft_walls_check(mlx->map, (int)(mlx->player->x - cosf(mlx->player->pov) * 0.25), (int)mlx->player->y))
 			mlx->player->x -= cosf(mlx->player->pov) * 0.25;
-		if (mlx->map[(int)(mlx->player->y + sinf(mlx->player->pov) * 0.25)][(int)mlx->player->x] != WALL)
+		if (ft_walls_check(mlx->map, (int)mlx->player->x, (int)(mlx->player->y + sinf(mlx->player->pov) * 0.25)))
 			mlx->player->y += sinf(mlx->player->pov) * 0.25;
 		ft_ray_cast(mlx);
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);

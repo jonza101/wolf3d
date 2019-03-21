@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/21 18:36:06 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/21 21:44:32 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@
 #define W 1280
 #define H 720
 
-#define WALL '#'
+#define TILES 4
+
+#define BW1 '1'
+#define BW2 '2'
+#define CELL '#'
+#define SCELL 'S'
 
 typedef struct	s_slider
 {
@@ -79,7 +84,8 @@ typedef struct	s_mlx
 
 	char			**map;
 
-	t_img			*textures;
+	t_img			**textures;
+	int					tile_index;
 
     t_player    *player;
 	t_slider	*slider;
@@ -97,6 +103,10 @@ void				ft_ray_start(t_mlx *mlx);
 void				ft_read_textures(t_mlx *mlx);
 
 int					ft_texture_sampling(t_img *img, double sample_x, double sample_y);
+
+int					ft_walls_check(char **map, int player_x, int player_y);
+int					ft_tiles_check(char **map, int t_x, int t_y);
+int					ft_get_tile_index(char c);
 
 void				ft_slider_line(t_mlx *mlx, int mouse_x);
 
