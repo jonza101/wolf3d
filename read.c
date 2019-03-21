@@ -6,43 +6,28 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:03:30 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/13 23:08:25 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/21 18:45:37 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-int		ft_texture_sampling(t_mlx *mlx, double sample_x, double sample_y)
+int		ft_texture_sampling(t_img *img, double sample_x, double sample_y)
 {
-	return (64 * 64 * sample_y * sample_x);
+	int sx = sample_x * (double)img->w;
+	int sy = sample_y * (double)img->h;
+	if (sx < 0 || sx > img->w || sy < 0 || sy > img->h)
+		return (0x0);
+	else
+		return (img->data[sy * img->w + sx]);
 }
 
 void	ft_read_textures(t_mlx *mlx)
 {
-	int x;
-	int y;
-	int file;
-	char buff[1];
+	mlx->textures = (t_img*)malloc(sizeof(t_img) * 1);
 
-	x = 0;
-	file = open("textures/blue_wall.png", O_RDONLY);
-	mlx->textures = (int**)malloc(sizeof(int*) * 1);
-	mlx->textures[0] = (int*)malloc(sizeof(int) * 64 * 64);
-	// while (read(file, buff, 1))
-	// {
-	// 	mlx->textures[0][x] = (int)buff[0];
-	// 	x++;
-	// }
-	while (x < 64)
-	{
-		y = 0;
-		while (y < 64)
-		{
-			int ycolor = y * 256 / 64;
-			mlx->textures[0][64 * y + x] = 65536 * ycolor; //red gradient
-			y++;
-		}
-		x++;
-	}
-	close(file);
+	mlx->textures->w = 64;
+	mlx->textures->h = 64;
+	mlx->textures->img = mlx_xpm_file_to_image(mlx->mlx, "textures/blue_wall.xpm", &mlx->textures->w, &mlx->textures->h);
+	mlx->textures->data = (int*)mlx_get_data_addr(mlx->textures->img, &mlx->textures->bpp, &mlx->textures->size_line, &mlx->textures->endian);
 }

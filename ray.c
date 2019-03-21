@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/13 23:01:17 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/21 18:39:29 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@ void	ft_ray_start(t_mlx *mlx)
 {
 	mlx->player->x = 8;
 	mlx->player->y = 8;
-	mlx->player->fov = 1.57;
+	mlx->player->fov = 1.02;	//1.57			//1.02 -> 2.09
 	mlx->player->pov = 0;
 	mlx->depth = 32;
-	
-	// mlx->proj_dist = W / 2 / tan(mlx->player->fov);
-	// mlx->ray_angle = mlx->player->fov / W;
 }
 
 void	ft_ray_cast(t_mlx *mlx)
@@ -102,7 +99,8 @@ void	ft_ray_cast(t_mlx *mlx)
 			else if (y > ceiling && y <= floor)
 			{
 				double sample_y = ((double)y - (double)ceiling) / ((double)floor - (double)ceiling);
-				ft_image(mlx, x, y, mlx->textures[0][ft_texture_sampling(mlx, sample_x, sample_y)]);
+				//printf("x %f		y %f\n", sample_x, sample_y);
+				ft_image(mlx, x, y, ft_texture_sampling(mlx->textures, sample_x, sample_y));
 				//ft_image(mlx, x, y, shade);
 			}
 			else

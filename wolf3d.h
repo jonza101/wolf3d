@@ -6,15 +6,20 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/13 22:41:17 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/21 18:36:06 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF3D_H
 # define WOLF3D_H
 
-#include "minilibx/mlx.h"
+#include "mlx.h"
+#include "gnl/get_next_line.h"
+
+#include <bsd/string.h>
+
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -44,6 +49,17 @@ typedef struct	s_player
 	double			fov;
 }						t_player;
 
+typedef	struct	s_img
+{
+	void			*img;
+	int				w;
+	int				h;
+	int				*data;
+	int				bpp;
+	int				size_line;
+	int				endian;
+}						t_img;
+
 typedef struct	s_mlx
 {
     void			*mlx;
@@ -63,7 +79,7 @@ typedef struct	s_mlx
 
 	char			**map;
 
-	int				**textures;
+	t_img			*textures;
 
     t_player    *player;
 	t_slider	*slider;
@@ -80,7 +96,7 @@ void				ft_ray_start(t_mlx *mlx);
 
 void				ft_read_textures(t_mlx *mlx);
 
-int					ft_texture_sampling(t_mlx *mlx, double sample_x, double sample_y);
+int					ft_texture_sampling(t_img *img, double sample_x, double sample_y);
 
 void				ft_slider_line(t_mlx *mlx, int mouse_x);
 
