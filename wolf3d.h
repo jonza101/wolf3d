@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/21 21:44:32 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/22 16:48:22 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,18 @@
 #define W 1280
 #define H 720
 
-#define TILES 4
+#define TILES 9
 
 #define BW1 '1'
 #define BW2 '2'
 #define CELL '#'
 #define SCELL 'S'
+#define GB1 '3'
+#define GB2 '4'
+#define EAGLE 'E'
+#define FLAG 'F'
+#define GH 'G'
+#define WALL (BW1 || BW2 || CELL || SCELL || GB1 || GB2 || EAGLE || FLAG || GH)
 
 typedef struct	s_slider
 {
@@ -75,8 +81,6 @@ typedef struct	s_mlx
 	int				size_line;
 	int				endian;
 
-	int				proj_dist;
-	double		ray_angle;
 	double		iter_angle;
 
 	double		depth;

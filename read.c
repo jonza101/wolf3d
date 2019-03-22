@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:03:30 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/21 21:18:53 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/03/22 16:39:25 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,39 @@
 
 int		ft_get_tile_index(char c)
 {
-	if (c == '1')
+	if (c == BW1)
 		return (0);
-	if (c == '2')
+	else if (c == BW2)
 		return (1);
-	if (c == '#')
+	else if (c == CELL)
 		return (2);
-	//if (c == 'S')
-	return (3);
+	else if (c == SCELL)
+		return (3);
+	else if (c == GB1)
+		return (4);
+	else if (c == GB2)
+		return (5);
+	else if (c == EAGLE)
+		return (6);
+	else if (c == FLAG)
+		return (7);
+	else if (c == GH)
+		return (8);
 }
 
-int		ft_tiles_check(char **map, int t_x, int t_y)
+int		ft_tiles_check(char **map, int p_x, int p_y)
 {
-	if (map[t_y][t_x] == BW1 || map[t_y][t_x] == BW2 || map[t_y][t_x] == CELL || map[t_y][t_x] == SCELL)
+	if (map[p_y][p_x] == BW1 || map[p_y][p_x] == BW2 || map[p_y][p_x] == CELL || map[p_y][p_x] == SCELL || map[p_y][p_x] == GB1
+		|| map[p_y][p_x] == GB2 || map[p_y][p_x] == EAGLE || map[p_y][p_x] == FLAG || map[p_y][p_x] == GH)
 		return (1);
 	return (0);
 }
 
 int		ft_walls_check(char **map, int player_x, int player_y)
 {
-	if (map[player_y][player_x] != BW1 && map[player_y][player_x] != BW2 && map[player_y][player_x] != CELL && map[player_y][player_x] != SCELL)
+	if (map[player_y][player_x] != BW1 && map[player_y][player_x] != BW2 && map[player_y][player_x] != CELL && map[player_y][player_x] != SCELL
+		&& map[player_y][player_x] != GB1 && map[player_y][player_x] != GB2 && map[player_y][player_x] != EAGLE && map[player_y][player_x] != FLAG
+			&& map[player_y][player_x] != GH)
 		return (1);
 	return (0);
 }
@@ -51,7 +64,8 @@ int		ft_texture_sampling(t_img *img, double sample_x, double sample_y)
 void	ft_read_textures(t_mlx *mlx)
 {
 	int i;
-	char *tiles[TILES] = { "textures/blue_wall1.xpm", "textures/blue_wall2.xpm", "textures/blue_cell.xpm", "textures/blue_skeleton_cell.xpm" };
+	char *tiles[TILES] = { "textures/blue_wall1.xpm", "textures/blue_wall2.xpm", "textures/blue_cell.xpm", "textures/blue_skeleton_cell.xpm",
+		"textures/gray_brick1.xpm", "textures/gray_brick2.xpm", "textures/gray_eagle.xpm", "textures/gray_flag.xpm", "textures/gray_hit.xpm" };
 
 	i = 0;
 	mlx->textures = (t_img**)malloc(sizeof(t_img*) * TILES);
