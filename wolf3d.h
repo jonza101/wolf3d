@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/22 16:48:22 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/01 19:53:05 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@
 #include "mlx.h"
 #include "gnl/get_next_line.h"
 
-#include <bsd/string.h>
+#include "mac_keys.h"
+#include "linux_keys.h" //!!!!!!!
+
+#include <pthread.h>
+
+#define THREAD 2
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,7 +32,7 @@
 #define W 1280
 #define H 720
 
-#define TILES 9
+#define TILES 11
 
 #define BW1 '1'
 #define BW2 '2'
@@ -38,7 +43,12 @@
 #define EAGLE 'E'
 #define FLAG 'F'
 #define GH 'G'
-#define WALL (BW1 || BW2 || CELL || SCELL || GB1 || GB2 || EAGLE || FLAG || GH)
+#define WW '5'
+#define WEAGLE 'W'
+
+#define OBJ 1
+
+#define BONES 'B'
 
 typedef struct	s_slider
 {
@@ -52,14 +62,6 @@ typedef struct	s_slider
 	int					is_grabbed;
 }						t_slider;
 
-typedef struct	s_player
-{
-    double			x;
-    double			y;
-    double			pov;
-	double			fov;
-}						t_player;
-
 typedef	struct	s_img
 {
 	void			*img;
@@ -71,6 +73,21 @@ typedef	struct	s_img
 	int				endian;
 }						t_img;
 
+typedef struct	s_obj
+{
+	double			x;
+	double			y;
+	t_img			*img;
+}						t_obj;
+
+typedef struct	s_player
+{
+    double			x;
+    double			y;
+    double			pov;
+	double			fov;
+}						t_player;
+
 typedef struct	s_mlx
 {
     void			*mlx;
@@ -81,6 +98,8 @@ typedef struct	s_mlx
 	int				size_line;
 	int				endian;
 
+	int				keycode;
+
 	double		iter_angle;
 
 	double		depth;
@@ -90,6 +109,10 @@ typedef struct	s_mlx
 
 	t_img			**textures;
 	int					tile_index;
+
+	t_obj			**objs;
+
+	double		*depth_buff;
 
     t_player    *player;
 	t_slider	*slider;
@@ -104,7 +127,8 @@ void				ft_image(t_mlx *mlx, int x, int y, int color);
 void				ft_ray_cast(t_mlx *mlx);
 void				ft_ray_start(t_mlx *mlx);
 
-void				ft_read_textures(t_mlx *mlx);
+void				ft_init_textures(t_mlx *mlx);
+void				ft_init_objects(t_mlx *mlx);
 
 int					ft_texture_sampling(t_img *img, double sample_x, double sample_y);
 
