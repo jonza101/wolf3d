@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:03:30 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/01 20:09:02 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/01 20:15:10 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_init_objects(t_mlx *mlx)
 		mlx->objs[i]->img = (t_img*)malloc(sizeof(t_img));
 		mlx->objs[i]->img->w = 64;
 		mlx->objs[i]->img->h = 64;
-		mlx->objs[i]->x = 23;
+		mlx->objs[i]->x = 24;
 		mlx->objs[i]->y = 24.5;
 		mlx->objs[i]->img->img = mlx_xpm_file_to_image(mlx->mlx, obj[i], &mlx->objs[i]->img->w, &mlx->objs[i]->img->h);
 		mlx->objs[i]->img->data = (int*)mlx_get_data_addr(mlx->objs[i]->img->img, &mlx->objs[i]->img->bpp, &mlx->objs[i]->img->size_line, &mlx->objs[i]->img->endian);

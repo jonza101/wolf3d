@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/01 19:45:02 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/01 20:13:54 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,9 @@ void	ft_ray_cast(t_mlx *mlx)
 
 		int in_fov = (fabs(obj_angle) <= mlx->player->fov / 2.0) ? 1 : 0;
 
-		if (in_fov == 1 && dist_from_player >= 1 && dist_from_player < mlx->depth)
+		if (in_fov == 1 && dist_from_player >= 0.5 && dist_from_player < mlx->depth)
 		{
-			double obj_ceiling = (double)(H / 2.0) - (double)H / (double)dist_from_player;
+			double obj_ceiling = (double)(H / 2.0) - (double)H / (double)dist_from_player  / mlx->player->fov;
 			double obj_floor = (double)H - (double)obj_ceiling;
 			double obj_h = (double)obj_floor - (double)obj_ceiling;
 			double obj_aspect_ratio = (double)mlx->objs[i]->img->h / (double)mlx->objs[i]->img->w;
