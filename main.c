@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/01 20:02:30 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/04 00:48:19 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ void ft_fill_map(t_mlx *mlx)
 	mlx->map[21] = "0000000000000000000000000010002000000";
 	mlx->map[22] = "0000000000000000000001121211011111210";
 	mlx->map[23] = "0000000000000000000002000010001000020";
-	mlx->map[24] = "0000000000000000000001000000000000020";
+	mlx->map[24] = "000000000000000000000100B000C00000020";
 	mlx->map[25] = "0000000000000000000001000010001000020";
 	mlx->map[26] = "0000000000000000000002000020002000020";
 	mlx->map[27] = "0000000000000000000001121120001111110";
 	mlx->map[28] = "0000000000000000000001000010001000010";
-	mlx->map[29] = "0000000000000000000002000000000000020";
+	mlx->map[29] = "0000000000000000000002000000C00000020";
 	mlx->map[30] = "0000000000000000000001000010001000010";
 	mlx->map[31] = "0000000000000000000001221120002112110";
 	mlx->map[32] = "0000000000000000000001000000000000010";
-	mlx->map[33] = "0000000000000000000002000000000000010";
+	mlx->map[33] = "000000000000000000000200C000C000C0010";
 	mlx->map[34] = "0000000000000000000001000000000000010";
 	mlx->map[35] = "0000000000000000000001#21#12S12#21#10";
 }
@@ -69,7 +69,7 @@ void ft_map(t_mlx *mlx)
 	mlx->map = (char **)malloc(sizeof(char *) * 36);
 	while (i < 36)
 	{
-		mlx->map[i] = (char *)malloc(sizeof(char) * 38);
+		mlx->map[i] = (char *)malloc(sizeof(char) * 37);
 		i++;
 	}
 	ft_fill_map(mlx);
@@ -142,15 +142,14 @@ void ft_map(t_mlx *mlx)
 
 int key_press(int keycode, t_mlx *mlx)
 {
-
 	//printf("%d\n", keycode);
-	mlx->keycode = keycode;
 	(keycode == 65307) ? exit(0) : 1;
 
 	if (keycode == 61 && mlx->player->fov <= 2.09)
 	{
 		ft_reset_image(mlx);
 		mlx->player->fov += 0.1;
+		//mlx->upper += 1;
 		ft_ray_cast(mlx);
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 	}
@@ -159,6 +158,7 @@ int key_press(int keycode, t_mlx *mlx)
 	{
 		ft_reset_image(mlx);
 		mlx->player->fov -= 0.1;
+		//mlx->upper -= 1;
 		ft_ray_cast(mlx);
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 	}
@@ -249,7 +249,7 @@ int key_press(int keycode, t_mlx *mlx)
 // 	mlx->slider->is_grabbed = 0;
 // }
 
-int main()
+int main(int argc, char **argv)
 {
 	t_mlx *mlx;
 
@@ -264,17 +264,15 @@ int main()
 
 	mlx->depth_buff = (double*)malloc(sizeof(double) * W);
 
-	ft_map(mlx);
+	ft_read_map(argv[1], mlx);
 
 	ft_init_textures(mlx);
 	ft_init_objects(mlx);
 
+	ft_read_obj(mlx);
+
 	ft_ray_start(mlx);
 	ft_ray_cast(mlx);
-
-
-	pthread_t  threads[THREAD];
-
 
 	//ft_start(mlx);
 	//ft_slider_line(mlx, mlx->slider->xo);
