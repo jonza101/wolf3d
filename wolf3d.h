@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/04 00:50:51 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/10 23:17:56 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 #include <pthread.h>
 
-#define THREAD 2
+#define THREAD 16
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -34,6 +34,7 @@
 
 #define TILES 11
 
+#define SPACE '0'
 #define BW1 '1'
 #define BW2 '2'
 #define CELL '#'
@@ -46,102 +47,128 @@
 #define WW '5'
 #define WEAGLE 'W'
 
-#define OBJ 5
+#define OBJ 12
 
 #define SKELETON 'S'
 #define CLAMP 'L'
 #define BONES 'B'
 #define CHAND 'C'
 #define TREE 'T'
+#define PUDDLE 'V'
+#define BARREL 'O'
+#define TABLE 'I'
+#define FWELL 'Z'
+#define EWELL 'X'
+#define DPOT 'U'
+#define DEAD 'D'
 
-typedef struct	s_slider
+#define COBJ 5			// R ++ && G ++
+
+#define AMMO 'A'
+#define CROSS '+'
+#define CUP '?'
+#define CROWN 'Q'
+#define CHEST '='
+
+typedef	struct			s_img
 {
-	int					xo;
-	int					x;
-	int					y;
-	int					radius;
-	int					len;
-	int					height;
-	int					lmb_hold;
-	int					is_grabbed;
-}						t_slider;
+	void					*img;
+	int						w;
+	int						h;
+	int						*data;
+	int						bpp;
+	int						size_line;
+	int						endian;
+}							t_img;
 
-typedef	struct	s_img
+typedef struct		s_cobj
 {
-	void			*img;
-	int				w;
-	int				h;
-	int				*data;
-	int				bpp;
-	int				size_line;
-	int				endian;
-}						t_img;
+	double				x;
+	double				y;
+	int						is_treasure;
+	t_img				*img;
+	struct s_cobj	*next_cobj;
+}							t_cobj;
 
-typedef struct	s_obj
+typedef struct		s_obj
 {
-	double			x;
-	double			y;
-	t_img			*img;
-}						t_obj;
+	double				x;
+	double				y;
+	int						is_lamp;
+	int						is_collectable;
+	t_img				*img;
+}							t_obj;
 
-typedef struct	s_player
+typedef struct		s_player
 {
-    double			x;
-    double			y;
-    double			pov;
-	double			fov;
-}						t_player;
+    double				x;
+    double				y;
+    double				pov;
+	double				fov;
+}							t_player;
 
-typedef struct	s_mlx
+typedef struct		s_mlx
 {
-    void			*mlx;
-    void			*win;
-    void			*img;
-	int				*data;
-	int				bpp;
-	int				size_line;
-	int				endian;
+    void				*mlx;
+    void				*win;
+    void				*img;
+	int						*data;
+	int						bpp;
+	int						size_line;
+	int						endian;
 
-	//int				keycode;
+	double				iter_angle;
 
-	double		iter_angle;
+	double				depth;
+	double				dist_inc;
 
-	double		depth;
-	double		dist_inc;
+	char				**map;
 
-	char			**map;
+	t_img				**textures;
+	int						tile_index;
 
-	t_img			**textures;
-	int					tile_index;
+	int						obj_count;
+	t_obj				**objs;
+	char				*obj[OBJ];
 
-	int				obj_count;
-	t_obj			**objs;
-	char			*obj[OBJ];
+	int						cobj_count;
+	t_cobj				*cobjs;
+	char				*cobj[COBJ];
 
-	double		*depth_buff;
+	int						ammo;
+	int						score;
 
-	int				keycode;
+	//double				angles[W];
 
-	double		upper;
+	double				*depth_buff;
 
-	int				row;
-	int				col;
+	int						mlx_index;
 
-    t_player    *player;
-	t_slider	*slider;
-}						t_mlx;
+	//int						keycode;
+
+	//double				upper;
+
+	int						row;
+	int						col;
+
+    t_player    		*player;
+}							t_mlx;
 
 void				ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color);
-void				ft_draw_circle(t_mlx *mlx, int xo, int yo, int color);
 void				ft_draw_cross(t_mlx *mlx );
+void				ft_draw_interface(t_mlx *mlx);
 
 void				ft_image(t_mlx *mlx, int x, int y, int color);
 
 void				ft_ray_cast(t_mlx *mlx);
 void				ft_ray_start(t_mlx *mlx);
 
+void				ft_objs_draw(t_mlx *mlx);
+void				ft_cobjs_draw(t_mlx *mlx);
+
 void				ft_init_textures(t_mlx *mlx);
 void				ft_init_objects(t_mlx *mlx);
+void				ft_init_cobjects(t_mlx *mlx);
 
 int					ft_texture_sampling(t_img *img, double sample_x, double sample_y);
 
@@ -151,13 +178,20 @@ int					ft_get_tile_index(char c);
 
 void				ft_obj_check(t_mlx *mlx, char *line);
 int					ft_obj_check_c(char c);
+int					ft_is_obj_phys(char c);
+int					ft_is_obj_lamp(char c);
 void				ft_read_obj(t_mlx *mlx);
 int					ft_get_obj_index(char c);
+int					ft_cobj_check(char c);
+int					ft_get_cobj_index(char c);
+
+void				ft_lst_fill(t_mlx *mlx, t_cobj *head, double x, double y, int cobj_c, int cobj_index);
+void				ft_lst_del_elem(t_mlx *mlx, t_cobj *root, int x, int y);
+
+void				ft_on_item_check(t_mlx *mlx, int p_x, int p_y);
 
 void				ft_read_map(char *map, t_mlx *mlx);
 
-void				*ft_realloc(void *ptr, size_t size);
-
-void				ft_slider_line(t_mlx *mlx, int mouse_x);
+void				ft_thread(t_mlx *mlx);
 
 #endif

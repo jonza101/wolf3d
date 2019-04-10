@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/04 00:48:19 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/10 23:23:50 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,17 @@ void ft_fill_map(t_mlx *mlx)
 	mlx->map[35] = "0000000000000000000001#21#12S12#21#10";
 }
 
-void ft_map(t_mlx *mlx)
+void	ft_show_map(t_mlx *mlx)
+{
+	int i = 0;
+	while (i < mlx->row)
+	{
+		printf("%s\n", mlx->map[i]);
+		i++;
+	}
+}
+
+void	ft_map(t_mlx *mlx)
 {
 	int i;
 	i = 0;
@@ -75,108 +85,40 @@ void ft_map(t_mlx *mlx)
 	ft_fill_map(mlx);
 }
 
-// int mouse_move(int x, int y, t_mlx *mlx)
-// {
-// 	if (mlx->slider->lmb_hold == 1)
-// 	{
-// 		if (x >= mlx->slider->x - mlx->slider->radius && x <= mlx->slider->x + mlx->slider->radius && y >= mlx->slider->y - mlx->slider->radius && y <= mlx->slider->y + mlx->slider->radius)
-// 			mlx->slider->is_grabbed = 1;
-// 	}
-// 	if (mlx->slider->is_grabbed == 1)
-// 	{
-// 		if (x >= mlx->slider->xo - mlx->slider->len && x <= mlx->slider->xo)
-// 		{
-// 			ft_reset_image(mlx);
-// 			ft_slider_line(mlx, x);
-// 			mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-// 		}
-// 		else
-// 		{
-// 			if (x < mlx->slider->xo - mlx->slider->len)
-// 			{
-// 				ft_reset_image(mlx);
-// 				ft_slider_line(mlx, mlx->slider->xo - mlx->slider->len);
-// 				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-// 			}
-// 			if (x > mlx->slider->xo)
-// 			{
-// 				ft_reset_image(mlx);
-// 				ft_slider_line(mlx, mlx->slider->xo);
-// 				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-// 			}
-// 		}
-// 		// if (abs(mlx->slider->x - x) > 5)				NOT SURE ABOUT IT
-// 		// {
-// 		// 	if (x >= mlx->slider->xo - mlx->slider->len && x <= mlx->slider->xo)
-// 		// 	{
-// 		// 			ft_reset_image(mlx);
-// 		// 			ft_slider_line(mlx, x);
-// 		// 			mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-// 		// 	}
-// 		// }
-// 	}
-// 	return (0);
-// }
-
-// int mouse_release(int button, int x, int y, t_mlx *mlx)
-// {
-// 	if (button == 1)
-// 	{
-// 		mlx->slider->lmb_hold = 0;
-// 		mlx->slider->is_grabbed = 0;
-// 	}
-// 	return (0);
-// }
-
-// int mouse_press(int button, int x, int y, t_mlx *mlx)
-// {
-// 	(button == 1) ? mlx->slider->lmb_hold = 1 : 1;
-// 	if (x >= mlx->slider->xo - mlx->slider->len && x <= mlx->slider->xo && y >= mlx->slider->y - mlx->slider->height && y <= mlx->slider->y + mlx->slider->height)
-// 	{
-// 		ft_reset_image(mlx);
-// 		ft_slider_line(mlx, x);
-// 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-// 	}
-// 	return (0);
-// }
-
-int key_press(int keycode, t_mlx *mlx)
+int		key_press(int keycode, t_mlx *mlx)
 {
 	//printf("%d\n", keycode);
+	(keycode == 1755) ? ft_show_map(mlx) : 1;
 	(keycode == 65307) ? exit(0) : 1;
 
-	if (keycode == 61 && mlx->player->fov <= 2.09)
+	if (keycode == 61 && mlx->player->fov < 2.09)
 	{
 		ft_reset_image(mlx);
-		mlx->player->fov += 0.1;
-		//mlx->upper += 1;
-		ft_ray_cast(mlx);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+		mlx->player->fov += 0.02;
+		printf("fov %f\n", mlx->player->fov);
+		ft_thread(mlx);
 	}
 
-	if (keycode == 45 && mlx->player->fov >= 1.02)
+	if (keycode == 45 && mlx->player->fov > 1.02)
 	{
 		ft_reset_image(mlx);
-		mlx->player->fov -= 0.1;
-		//mlx->upper -= 1;
-		ft_ray_cast(mlx);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+		mlx->player->fov -= 0.02;
+		printf("fov %f\n", mlx->player->fov);
+		ft_thread(mlx);
 	}
 
 	if (keycode == 65361)
 	{
 		ft_reset_image(mlx);
 		mlx->player->pov -= 0.065;
-		ft_ray_cast(mlx);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+		ft_thread(mlx);
 	}
 
 	if (keycode == 65363)
 	{
 		ft_reset_image(mlx);
 		mlx->player->pov += 0.065;
-		ft_ray_cast(mlx);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+		ft_thread(mlx);
 	}
 
 	if (keycode == 1731 || keycode == 119)	//FORWARD
@@ -187,8 +129,8 @@ int key_press(int keycode, t_mlx *mlx)
 			mlx->player->x += sinf(mlx->player->pov) * 0.4;
 		if (ft_walls_check(mlx->map, (int)mlx->player->x, (int)(mlx->player->y + cosf(mlx->player->pov) * 0.4)))
 			mlx->player->y += cosf(mlx->player->pov) * 0.4;
-		ft_ray_cast(mlx);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+		ft_on_item_check(mlx, (int)mlx->player->x, (int)mlx->player->y);
+		ft_thread(mlx);
 	}
 
 	if (keycode == 1753 || keycode == 115)	//BACK
@@ -199,8 +141,8 @@ int key_press(int keycode, t_mlx *mlx)
 			mlx->player->x -= sinf(mlx->player->pov) * 0.4;
 		if (ft_walls_check(mlx->map, (int)mlx->player->x, (int)(mlx->player->y - cosf(mlx->player->pov) * 0.4)))
 			mlx->player->y -= cosf(mlx->player->pov) * 0.4;
-		ft_ray_cast(mlx);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+		ft_on_item_check(mlx, (int)mlx->player->x, (int)mlx->player->y);
+		ft_thread(mlx);
 	}
 
 	if (keycode == 1751)	//RIGHT
@@ -211,8 +153,8 @@ int key_press(int keycode, t_mlx *mlx)
 			mlx->player->x += cosf(mlx->player->pov) * 0.25;
 		if (ft_walls_check(mlx->map, (int)mlx->player->x, (int)(mlx->player->y - sinf(mlx->player->pov) * 0.25)))
 			mlx->player->y -= sinf(mlx->player->pov) * 0.25;
-		ft_ray_cast(mlx);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+		ft_on_item_check(mlx, (int)mlx->player->x, (int)mlx->player->y);
+		ft_thread(mlx);
 	}
 
 	if (keycode == 1734)	//LEFT
@@ -223,39 +165,25 @@ int key_press(int keycode, t_mlx *mlx)
 			mlx->player->x -= cosf(mlx->player->pov) * 0.25;
 		if (ft_walls_check(mlx->map, (int)mlx->player->x, (int)(mlx->player->y + sinf(mlx->player->pov) * 0.25)))
 			mlx->player->y += sinf(mlx->player->pov) * 0.25;
-		ft_ray_cast(mlx);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+		ft_on_item_check(mlx, (int)mlx->player->x, (int)mlx->player->y);
+		ft_thread(mlx);
 	}
 
 	if (keycode == 1739 || keycode == 114)
 	{
-		ft_reset_image(mlx);
+		ft_reset_image(mlx);			//RESTART SHOULD RE READ MAP AND ETC
 		ft_ray_start(mlx);
-		ft_ray_cast(mlx);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+		ft_thread(mlx);
 	}
 	return (0);
 }
 
-// void ft_start(t_mlx *mlx)
-// {
-// 	mlx->slider->x = W / 2;
-// 	mlx->slider->y = H / 2;
-// 	mlx->slider->xo = W / 2;
-// 	mlx->slider->len = 40;
-// 	mlx->slider->height = 10;
-// 	mlx->slider->radius = 10;
-// 	mlx->slider->lmb_hold = 0;
-// 	mlx->slider->is_grabbed = 0;
-// }
-
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	t_mlx *mlx;
 
 	mlx = (t_mlx *)malloc(sizeof(t_mlx));
 	mlx->player = (t_player *)malloc(sizeof(t_player));
-	mlx->slider = (t_slider *)malloc(sizeof(t_slider));
 
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, W, H, "Wolf3D");
@@ -268,16 +196,12 @@ int main(int argc, char **argv)
 
 	ft_init_textures(mlx);
 	ft_init_objects(mlx);
+	ft_init_cobjects(mlx);
 
 	ft_read_obj(mlx);
 
 	ft_ray_start(mlx);
-	ft_ray_cast(mlx);
-
-	//ft_start(mlx);
-	//ft_slider_line(mlx, mlx->slider->xo);
-
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+	ft_thread(mlx);
 
 	mlx_hook(mlx->win, 2, 1L << 0, key_press, mlx);
 	// mlx_hook(mlx->win, 4, 1L << 2, mouse_press, mlx);

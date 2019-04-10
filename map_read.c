@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:02:51 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/04 00:33:21 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/10 23:09:15 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_map_error()
 {
 	ft_putstr("Map error!\nUsage: ./wolf3d [map]\n");
-	exit(1);
+	exit(0);
 }
 
 void	ft_read_obj(t_mlx *mlx)
@@ -23,9 +23,11 @@ void	ft_read_obj(t_mlx *mlx)
 	int i;
 	int j;
 	int obj_c;
+	int cobj_c;
 
 	i = 0;
 	obj_c = 0;
+	cobj_c = 0;
 	while (i < mlx->row)
 	{
 		j = 0;
@@ -34,17 +36,24 @@ void	ft_read_obj(t_mlx *mlx)
 			if (ft_obj_check_c(mlx->map[i][j]) == 1)
 			{
 				int index = ft_get_obj_index(mlx->map[i][j]);
+				mlx->objs[obj_c]->is_lamp = (ft_is_obj_lamp(mlx->map[i][j]) == 1) ? 1 : 0;
 				mlx->objs[obj_c]->img->img = mlx_xpm_file_to_image(mlx->mlx, mlx->obj[index], &mlx->objs[obj_c]->img->w, &mlx->objs[obj_c]->img->h);
 				mlx->objs[obj_c]->img->data = (int*)mlx_get_data_addr(mlx->objs[obj_c]->img->img, &mlx->objs[obj_c]->img->bpp, &mlx->objs[obj_c]->img->size_line, &mlx->objs[obj_c]->img->endian);
-				mlx->map[i][j] = '0';
+				(!ft_is_obj_phys(mlx->map[i][j])) ? mlx->map[i][j] = '0' : 1;
 				mlx->objs[obj_c]->y = i + 0.5;
 				mlx->objs[obj_c]->x = j + 0.5;
 				obj_c++;
+			}
+			if (ft_cobj_check(mlx->map[i][j]) == 1)
+			{
+				ft_lst_fill(mlx, mlx->cobjs, j + 0.5, i + 0.5, cobj_c, ft_get_cobj_index(mlx->map[i][j]));
+				cobj_c++;
 			}
 			j++;
 		}
 		i++;
 	}
+	printf("\n");
 }
 
 void	ft_read_map(char *map, t_mlx *mlx)
@@ -60,6 +69,7 @@ void	ft_read_map(char *map, t_mlx *mlx)
 	mlx->col = ft_strlen(line);
 	mlx->row = 1;
 	mlx->obj_count = 0;
+	mlx->cobj_count = 0;
 	while (get_next_line(fd, &line) == 1)
 	{
 		(ft_strlen(line) != mlx->col) ? ft_map_error() : 1;
@@ -78,7 +88,9 @@ void	ft_read_map(char *map, t_mlx *mlx)
 		mlx->map[i] = ft_strncpy(mlx->map[i], line, mlx->col);
 		i++;
 	}
+	printf("row %d		col %d\n", mlx->row, mlx->col);
 	printf("obj count %d\n", mlx->obj_count);
+	printf("cobj count %d\n", mlx->cobj_count);
 	close(fd);
 }
 
