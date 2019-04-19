@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/10 23:17:56 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/19 19:50:44 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@
 #define W 1280
 #define H 720
 
-#define TILES 11
+#define PLAYER 'P'
+
+#define TILES 12
 
 #define SPACE '0'
 #define BW1 '1'
@@ -46,8 +48,9 @@
 #define GH 'G'
 #define WW '5'
 #define WEAGLE 'W'
+#define WH 'H'
 
-#define OBJ 12
+#define OBJ 19
 
 #define SKELETON 'S'
 #define CLAMP 'L'
@@ -61,14 +64,24 @@
 #define EWELL 'X'
 #define DPOT 'U'
 #define DEAD 'D'
+#define KNIGHT 'K'
+#define VASE '&'
+#define TCHAIRS '-' 
+#define BUSH '^'
+#define FLAMP '!'
+#define FLAGPOLE 'i'
+#define GBARREL 'o'
 
-#define COBJ 5			// R ++ && G ++
+#define COBJ 8
 
 #define AMMO 'A'
 #define CROSS '+'
 #define CUP '?'
 #define CROWN 'Q'
 #define CHEST '='
+#define FOOD 'M'
+#define DFOOD '_'
+#define MEDKIT '*'
 
 typedef	struct			s_img
 {
@@ -85,7 +98,7 @@ typedef struct		s_cobj
 {
 	double				x;
 	double				y;
-	int						is_treasure;
+	int						is;
 	t_img				*img;
 	struct s_cobj	*next_cobj;
 }							t_cobj;
@@ -103,8 +116,14 @@ typedef struct		s_player
 {
     double				x;
     double				y;
+	double				start_x;
+	double				start_y;
     double				pov;
 	double				fov;
+
+	int						ammo;
+	int						score;
+	int						hp;
 }							t_player;
 
 typedef struct		s_mlx
@@ -134,9 +153,6 @@ typedef struct		s_mlx
 	int						cobj_count;
 	t_cobj				*cobjs;
 	char				*cobj[COBJ];
-
-	int						ammo;
-	int						score;
 
 	//double				angles[W];
 

@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:02:51 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/10 23:09:15 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/19 19:15:16 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ void	ft_read_obj(t_mlx *mlx)
 		j = 0;
 		while (j < mlx->col)
 		{
+			if (mlx->map[i][j] == PLAYER)
+			{
+				mlx->player->start_x = j + 0.5;
+				mlx->player->start_y = i + 0.5;
+				mlx->map[i][j] = '0';
+			}
 			if (ft_obj_check_c(mlx->map[i][j]) == 1)
 			{
 				int index = ft_get_obj_index(mlx->map[i][j]);

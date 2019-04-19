@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:03:30 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/10 23:18:20 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/19 20:00:04 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int		ft_get_tile_index(char c)
 		return (9);
 	else if (c == WEAGLE)
 		return (10);
+	else if (c == WH)
+		return (11);
 }
 
 int		ft_get_obj_index(char c)
@@ -64,6 +66,20 @@ int		ft_get_obj_index(char c)
 		return (10);
 	else if (c == DEAD)
 		return (11);
+	else if (c == KNIGHT)
+		return (12);
+	else if (c == VASE)
+		return (13);
+	else if (c == TCHAIRS)
+		return (14);
+	else if (c == BUSH)
+		return (15);
+	else if (c == FLAMP)
+		return (16);
+	else if (c == FLAGPOLE)
+		return (17);
+	else if (c == GBARREL)
+		return (18);
 }
 
 int		ft_get_cobj_index(char c)
@@ -78,23 +94,59 @@ int		ft_get_cobj_index(char c)
 		return (3);
 	else if (c == CHEST)
 		return (4);
+	else if (c == FOOD)
+		return (5);
+	else if (c == DFOOD)
+		return (6);
+	else if (c == MEDKIT)
+		return (7);
+}
+
+int		ft_cobj_is(int index)
+{
+	if (index == 0)
+		return (0);
+	else if (index > 0 && index < 5)
+		return (1);
+	else if (index == 5)
+		return(2);
+	else if (index == 6)
+		return (3);
+	else if (index == 7)
+		return (4);
 }
 
 void	ft_on_item_check(t_mlx *mlx, int p_x, int p_y)
 {
-	if (mlx->map[p_y][p_x] == AMMO || mlx->map[p_y][p_x] == CROSS || mlx->map[p_y][p_x] == CUP ||
-		mlx->map[p_y][p_x] == CROWN || mlx->map[p_y][p_x] == CHEST)
-	{
-		mlx->map[p_y][p_x] = SPACE;
-		
+	if (ft_cobj_check(mlx->map[p_y][p_x]))
+	{		
 		t_cobj *temp;
 
 		if (mlx->cobjs && (int)mlx->cobjs->x == p_x && (int)mlx->cobjs->y == p_y)
 		{
-			if (mlx->cobjs->is_treasure == 0)
-				mlx->ammo += 10;
-			else
-				mlx->score += 100;
+			if (mlx->cobjs->is == 0)
+			{
+				mlx->player->ammo += 5;
+				mlx->map[p_y][p_x] = SPACE;
+			}		
+			else if (mlx->cobjs->is == 1)
+			{
+				mlx->player->score += 100;
+				mlx->map[p_y][p_x] = SPACE;
+			}
+			else if (mlx->player->hp < 100)
+			{
+				if (mlx->cobjs->is == 2)
+					mlx->player->hp += 10;
+				else if (mlx->cobjs->is == 3)
+					mlx->player->hp += 4;
+				else if (mlx->cobjs->is == 4)
+					mlx->player->hp += 25;
+				(mlx->player->hp > 100) ? mlx->player->hp = 100 : 1;
+				mlx->map[p_y][p_x] = SPACE;
+			}
+			else if (mlx->player->hp == 100)
+				return ;
 
 			temp = mlx->cobjs;
 			free(mlx->cobjs);
@@ -109,10 +161,32 @@ void	ft_on_item_check(t_mlx *mlx, int p_x, int p_y)
 			while (mlx->cobjs->next_cobj && ((int)mlx->cobjs->next_cobj->x != p_x || (int)mlx->cobjs->next_cobj->y != p_y))
 				mlx->cobjs = mlx->cobjs->next_cobj;
 
-			if (mlx->cobjs->next_cobj->is_treasure == 0)
-				mlx->ammo += 10;
-			else
-				mlx->score += 100;
+			if (mlx->cobjs->next_cobj->is == 0)
+			{
+				mlx->player->ammo += 5;
+				mlx->map[p_y][p_x] = SPACE;
+			}		
+			else if (mlx->cobjs->next_cobj->is == 1)
+			{
+				mlx->player->score += 100;
+				mlx->map[p_y][p_x] = SPACE;
+			}
+			else if (mlx->player->hp < 100)
+			{
+				if (mlx->cobjs->next_cobj->is == 2)
+					mlx->player->hp += 10;
+				else if (mlx->cobjs->next_cobj->is == 3)
+					mlx->player->hp += 4;
+				else if (mlx->cobjs->next_cobj->is == 4)
+					mlx->player->hp += 25;
+				(mlx->player->hp > 100) ? mlx->player->hp = 100 : 1;
+				mlx->map[p_y][p_x] = SPACE;
+			}
+			else if (mlx->player->hp == 100)
+			{
+				mlx->cobjs = tmp;
+				return ;
+			}
 
 			temp = mlx->cobjs->next_cobj;
 			free(mlx->cobjs->next_cobj);
@@ -124,7 +198,7 @@ void	ft_on_item_check(t_mlx *mlx, int p_x, int p_y)
 
 int		ft_cobj_check(char c)
 {
-	if (c == AMMO || c == CROSS || c == CUP || c == CROWN || c == CHEST)
+	if (c == AMMO || c == CROSS || c == CUP || c == CROWN || c == CHEST || c == FOOD || c == DFOOD || c == MEDKIT)
 		return (1);
 	return (0);
 }
@@ -138,7 +212,8 @@ int		ft_is_obj_lamp(char c)
 
 int		ft_is_obj_phys(char c)
 {
-	if (c == TREE || c == BARREL || c == TABLE || c == FWELL || c == EWELL)
+	if (c == TREE || c == BARREL || c == TABLE || c == FWELL || c == EWELL || c == KNIGHT || c == VASE || c == TCHAIRS || c == BUSH
+		|| c == FLAMP || c == FLAGPOLE || c == GBARREL)
 		return (1);
 	return (0);
 }
@@ -146,7 +221,8 @@ int		ft_is_obj_phys(char c)
 int		ft_obj_check_c(char c)
 {
 	if (c == SKELETON || c == CLAMP || c == BONES || c == CHAND || c == TREE || c == PUDDLE
-		|| c == BARREL || c == TABLE || c == FWELL || c == EWELL || c == DPOT || c == DEAD)
+		|| c == BARREL || c == TABLE || c == FWELL || c == EWELL || c == DPOT || c == DEAD || c == KNIGHT || c == VASE || c == TCHAIRS
+		|| c == BUSH || c == FLAMP || c == FLAGPOLE || c == GBARREL)
 		return (1);
 	return (0);
 }
@@ -159,9 +235,11 @@ void	ft_obj_check(t_mlx *mlx, char *line)
 	while (line[i])
 	{
 		if (line[i] == SKELETON || line[i] == CLAMP || line[i] == BONES || line[i] == CHAND || line[i] == TREE || line[i] == PUDDLE || line[i] == BARREL
-			|| line[i] == TABLE || line[i] == FWELL || line[i] == EWELL || line[i] == DPOT || line[i] == DEAD)
+			|| line[i] == TABLE || line[i] == FWELL || line[i] == EWELL || line[i] == DPOT || line[i] == DEAD || line[i] == KNIGHT || line[i] == VASE
+				|| line[i] == TCHAIRS || line[i] == BUSH || line[i] == FLAMP || line[i] == FLAGPOLE || line[i] == GBARREL)
 			mlx->obj_count++;
-		if (line[i] == AMMO || line[i] == CROSS || line[i] == CUP || line[i] == CROWN || line[i] == CHEST)
+		if (line[i] == AMMO || line[i] == CROSS || line[i] == CUP || line[i] == CROWN || line[i] == CHEST || line[i] == FOOD || line[i] == DFOOD
+			|| line[i] == MEDKIT)
 			mlx->cobj_count++;
 		i++;
 	}
@@ -171,7 +249,9 @@ int		ft_tiles_check(char **map, int p_x, int p_y)
 {
 	if (map[p_y][p_x] == SPACE || map[p_y][p_x] == TREE || map[p_y][p_x] == BARREL|| map[p_y][p_x] == TABLE || map[p_y][p_x] == FWELL
 		|| map[p_y][p_x] == EWELL || map[p_y][p_x] == AMMO || map[p_y][p_x] == CROSS || map[p_y][p_x] == CUP || map[p_y][p_x] == CROWN
-			|| map[p_y][p_x] == CHEST)
+			|| map[p_y][p_x] == CHEST || map[p_y][p_x] == KNIGHT || map[p_y][p_x] == VASE || map[p_y][p_x] == TCHAIRS || map[p_y][p_x] == BUSH
+				|| map[p_y][p_x] == FLAMP || map[p_y][p_x] == FLAGPOLE || map[p_y][p_x] == GBARREL || map[p_y][p_x] == FOOD
+					|| map[p_y][p_x] == DFOOD || map[p_y][p_x] == MEDKIT)
 		return (0);
 	return (1);
 }
@@ -179,7 +259,8 @@ int		ft_tiles_check(char **map, int p_x, int p_y)
 int		ft_walls_check(char **map, int player_x, int player_y)
 {
 	if (map[player_y][player_x] == SPACE || map[player_y][player_x] == AMMO || map[player_y][player_x] == CROSS
-		|| map[player_y][player_x] == CUP || map[player_y][player_x] == CROWN || map[player_y][player_x] == CHEST)
+		|| map[player_y][player_x] == CUP || map[player_y][player_x] == CROWN || map[player_y][player_x] == CHEST
+			|| map[player_y][player_x] == FOOD || map[player_y][player_x] == DFOOD || map[player_y][player_x] == MEDKIT)
 		return (1);
 	return (0);
 }
@@ -208,7 +289,7 @@ void	ft_lst_fill(t_mlx *mlx, t_cobj *root, double x, double y, int cobj_c, int c
 	}
 	root->x = x;
 	root->y = y;
-	root->is_treasure = (cobj_index > 0) ? 1 : 0;
+	root->is = ft_cobj_is(cobj_index);
 
 	root->img->img = mlx_xpm_file_to_image(mlx->mlx, mlx->cobj[cobj_index], &root->img->w, &root->img->h);
 	root->img->data = (int*)mlx_get_data_addr(root->img->img, &root->img->bpp, &root->img->size_line, &root->img->endian);
@@ -238,6 +319,9 @@ void	ft_init_cobjects(t_mlx *mlx)
 	mlx->cobj[2] = ft_strdup("textures/cobj/cup.xpm");
 	mlx->cobj[3] = ft_strdup("textures/cobj/crown.xpm");
 	mlx->cobj[4] = ft_strdup("textures/cobj/chest.xpm");
+	mlx->cobj[5] = ft_strdup("textures/cobj/food.xpm");
+	mlx->cobj[6] = ft_strdup("textures/cobj/dog_food.xpm");
+	mlx->cobj[7] = ft_strdup("textures/cobj/medkit.xpm");
 
 	mlx->cobjs = (t_cobj*)malloc(sizeof(t_cobj));
 	mlx->cobjs->img = (t_img*)malloc(sizeof(t_img));
@@ -269,6 +353,13 @@ void	ft_init_objects(t_mlx *mlx)
 	mlx->obj[9] = ft_strdup("textures/obj/e_well.xpm");
 	mlx->obj[10] = ft_strdup("textures/obj/dog_pot.xpm");
 	mlx->obj[11] = ft_strdup("textures/obj/dead.xpm");
+	mlx->obj[12] = ft_strdup("textures/obj/knight.xpm");
+	mlx->obj[13] = ft_strdup("textures/obj/vase.xpm");
+	mlx->obj[14] = ft_strdup("textures/obj/t_chairs.xpm");
+	mlx->obj[15] = ft_strdup("textures/obj/bush.xpm");
+	mlx->obj[16] = ft_strdup("textures/obj/floor_lamp.xpm");
+	mlx->obj[17] = ft_strdup("textures/obj/flagpole.xpm");
+	mlx->obj[18] = ft_strdup("textures/obj/g_barrel.xpm");
 
 	i = 0;
 	mlx->objs = (t_obj**)malloc(sizeof(t_obj*) * mlx->obj_count);
@@ -287,7 +378,7 @@ void	ft_init_textures(t_mlx *mlx)
 	int i;
 	char *tiles[TILES] = { "textures/blue_wall1.xpm", "textures/blue_wall2.xpm", "textures/blue_cell.xpm", "textures/blue_skeleton_cell.xpm",
 		"textures/gray_brick1.xpm", "textures/gray_brick2.xpm", "textures/gray_eagle.xpm", "textures/gray_flag.xpm", "textures/gray_hit.xpm",
-			"textures/wooden_wall.xpm", "textures/wooden_eagle.xpm" };
+			"textures/wooden_wall.xpm", "textures/wooden_eagle.xpm", "textures/wood_hit.xpm" };
 
 	i = 0;
 	mlx->textures = (t_img**)malloc(sizeof(t_img*) * TILES);

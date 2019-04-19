@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 15:27:58 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/10 18:06:47 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/19 18:52:42 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	ft_thread(t_mlx *mlx)
 {
 	int i;
 	pthread_t threads[THREAD];
+	pthread_t o_threads[2];
 	t_mlx *mlx_cpy[THREAD];
+	t_mlx *o_mlx_cpy[2];
 
 	i = 0;
 	while (i < THREAD)
@@ -43,8 +45,18 @@ void	ft_thread(t_mlx *mlx)
 		ft_memdel((void*)&mlx_cpy[i]);
 		i++;
 	}
-	ft_objs_draw(mlx);
-	ft_cobjs_draw(mlx);
+
+	o_mlx_cpy[0] = (t_mlx*)malloc(sizeof(t_mlx));
+	o_mlx_cpy[1] = (t_mlx*)malloc(sizeof(t_mlx));
+	o_mlx_cpy[0] = ft_memcpy((void*)o_mlx_cpy[0], (void*)mlx, sizeof(t_mlx));
+	o_mlx_cpy[1] = ft_memcpy((void*)o_mlx_cpy[1], (void*)mlx, sizeof(t_mlx));
+	pthread_create(&o_threads[0], NULL, (void*)ft_objs_draw, (void*)o_mlx_cpy[0]);
+	pthread_create(&o_threads[1], NULL, (void*)ft_cobjs_draw, (void*)o_mlx_cpy[1]);
+	pthread_join(o_threads[0], NULL);
+	pthread_join(o_threads[1], NULL);
+	ft_memdel((void*)&o_mlx_cpy[0]);
+	ft_memdel((void*)&o_mlx_cpy[1]);
+	
 	ft_draw_cross(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 	ft_draw_interface(mlx);

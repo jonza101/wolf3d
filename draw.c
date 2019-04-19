@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:20:31 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/10 23:06:22 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/17 18:51:54 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,22 @@ void	ft_draw_interface(t_mlx *mlx)
 {
 	char *ammo_str;
 	char *score_str;
+	char *hp_str;
 
-	ammo_str = ft_strdup(ft_itoa(mlx->ammo));
-	score_str = ft_strdup(ft_itoa(mlx->score));
+	ammo_str = ft_strdup(ft_itoa(mlx->player->ammo));
+	score_str = ft_strdup(ft_itoa(mlx->player->score));
+	hp_str = ft_strdup(ft_itoa(mlx->player->hp));
+
 	ammo_str = ft_strjoin("Ammo: ", ammo_str);
 	score_str = ft_strjoin("Score: ", score_str);
+	hp_str = ft_strjoin("Health: ", hp_str);
+
 	mlx_string_put(mlx->mlx, mlx->win, 20, H - 40, 0xFFFFFF, ammo_str);
 	mlx_string_put(mlx->mlx, mlx->win, 20, H - 20, 0xFFFFFF, score_str);
+	mlx_string_put(mlx->mlx, mlx->win, 20, H - 60, 0xFFFFFF, hp_str);
+
 	free(ammo_str);
 	free(score_str);
+	free(hp_str);
 }
 

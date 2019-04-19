@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/10 23:14:25 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/19 18:19:56 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	ft_ray_start(t_mlx *mlx)
 {
-	mlx->player->x = 34;
-	mlx->player->y = 29.5;
+	mlx->player->x = mlx->player->start_x;
+	mlx->player->y = mlx->player->start_y;
 	mlx->player->fov = 1.57;	//1.57			//1.02 -> 2.09
 	mlx->player->pov = -1.57;
 	mlx->depth = 32;
-	//mlx->upper = 1;
 
-	mlx->ammo = 0;
-	mlx->score = 0;
+	mlx->player->ammo = 0;
+	mlx->player->score = 0;
+	mlx->player->hp = 100;
 }
 
 void	ft_cobjs_draw(t_mlx *mlx)
@@ -48,7 +48,7 @@ void	ft_cobjs_draw(t_mlx *mlx)
 
 		int in_fov = (fabs(obj_angle) <= mlx->player->fov / 2.0) ? 1 : 0;
 
-		if (in_fov == 1 && dist_from_player >= 0.25 && dist_from_player < mlx->depth)
+		if (in_fov == 1 && dist_from_player < mlx->depth)
 		{
 			double obj_ceiling = (double)(H / 2.0) - (double)H / (double)dist_from_player / mlx->player->fov;
 			double obj_floor = (double)H - (double)obj_ceiling;
@@ -58,7 +58,7 @@ void	ft_cobjs_draw(t_mlx *mlx)
 
 			double obj_middle = (double)(0.5 * (obj_angle / (mlx->player->fov / 2.0)) + 0.5) * (double)W;
 
-			if (obj_h <= H || obj_w <= W)
+			if (obj_h < H || obj_w < W)
 			{
 				int ox = 0;
 				while (ox < obj_w)
@@ -110,18 +110,24 @@ void	ft_objs_draw(t_mlx *mlx)
 
 		int in_fov = (fabs(obj_angle) <= mlx->player->fov / 2.0) ? 1 : 0;
 
-		if (in_fov == 1 && dist_from_player >= 0.25 && dist_from_player < mlx->depth)
+		if (in_fov == 1 && dist_from_player < mlx->depth)
 		{
 			double obj_ceiling = (double)(H / 2.0) - (double)H / (double)dist_from_player / mlx->player->fov;
 			double obj_floor = (double)H - (double)obj_ceiling;
 			double obj_h = (double)obj_floor - (double)obj_ceiling;
-			double obj_aspect_ratio = (double)mlx->objs[i]->img->h / (double)mlx->objs[i]->img->w;
+			double obj_aspect_ratio =  (double)mlx->objs[i]->img->w / (double)mlx->objs[i]->img->h;
 			double obj_w = (double)obj_h / (double)obj_aspect_ratio;
 
 			double obj_middle = (double)(0.5 * (obj_angle / (mlx->player->fov / 2.0)) + 0.5) * (double)W;
 
-			if (obj_h <= H || obj_w <= W)
+			if (obj_h < H || obj_w < W)
 			{
+				// if (obj_h > H)
+				// {
+				// 	printf("h %f		w %f\n\n", obj_h, obj_w);
+				// 	obj_h = H;
+				// 	obj_w = (double)obj_h / (double)obj_aspect_ratio;
+				// }
 				int ox = 0;
 				while (ox < obj_w)
 				{
@@ -136,11 +142,11 @@ void	ft_objs_draw(t_mlx *mlx)
 						int obj_col = (int)(obj_middle + ox - (obj_w / 2.0));
 						if (obj_col >= 0 && obj_col < W)
 							if (color != 0x980088 && mlx->depth_buff[obj_col] >= dist_from_player)
-							{
-								ft_image(mlx, obj_col, obj_ceiling + oy, color);
-								//mlx->depth_buff[obj_col] = dist_from_player;
-								(mlx->objs[i]->is_lamp == 0) ? mlx->depth_buff[obj_col] = dist_from_player : 1;
-							}
+								{
+									ft_image(mlx, obj_col, obj_ceiling + oy, color);
+									//mlx->depth_buff[obj_col] = dist_from_player;
+									(mlx->objs[i]->is_lamp == 0) ? mlx->depth_buff[obj_col] = dist_from_player : 1;
+								}
 						oy++;
 					}
 					ox++;
