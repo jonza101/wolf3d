@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/19 18:39:09 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/23 21:48:55 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,9 @@ int		main(int argc, char **argv)
 	mlx->depth_buff = (double*)malloc(sizeof(double) * W);
 
 	ft_read_map(argv[1], mlx);
+
+	mlx->sprite_order = (int*)malloc(sizeof(int) * mlx->obj_count);
+	mlx->sprite_dist = (double*)malloc(sizeof(double) * mlx->obj_count);
 
 	ft_init_textures(mlx);
 	ft_init_objects(mlx);

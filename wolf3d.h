@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/19 19:50:44 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/23 19:34:30 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,9 @@ typedef struct		s_mlx
 
 	int						row;
 	int						col;
+
+	int						*sprite_order;
+	double				*sprite_dist;
 
     t_player    		*player;
 }							t_mlx;
