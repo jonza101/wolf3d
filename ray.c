@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/23 22:07:12 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/26 21:50:16 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,10 +282,6 @@ void	ft_ray_cast(t_mlx *mlx)
 		}
 		// dist_to_wall *= ((eye_angle_x * sinf(mlx->player->pov)) + (eye_angle_y * cosf(mlx->player->pov))) / (mlx->player->fov / 2);
 		// double ceiling = (double)(H / 2.0) * (1.0 - 1.0 / dist_to_wall / 0.95);
-
-		// double screen_halflen = dist_to_wall * tanf(mlx->player->fov / 2);
-		// double seg_len = (double)screen_halflen / ((double)W / 2.0);
-		// dist_to_wall *= cosf(atan(((seg_len * x - screen_halflen) / dist_to_wall)));
 
 		double ceiling = (double)(H / 2.0) - H / (double)dist_to_wall / mlx->player->fov;
 		int floor = H - ceiling;

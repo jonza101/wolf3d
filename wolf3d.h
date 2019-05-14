@@ -6,14 +6,14 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/23 19:34:30 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/06 18:57:18 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF3D_H
 # define WOLF3D_H
 
-#include "mlx.h"
+#include "minilibx/mlx.h"
 #include "gnl/get_next_line.h"
 
 #include "mac_keys.h"
@@ -142,6 +142,7 @@ typedef struct		s_mlx
 	double				dist_inc;
 
 	char				**map;
+	char				*map_file;
 
 	t_img				**textures;
 	int						tile_index;
@@ -154,18 +155,15 @@ typedef struct		s_mlx
 	t_cobj				*cobjs;
 	char				*cobj[COBJ];
 
-	//double				angles[W];
-
 	double				*depth_buff;
 
 	int						mlx_index;
 
-	//int						keycode;
-
-	//double				upper;
-
 	int						row;
 	int						col;
+
+	int						f_x;
+	int						f_y;
 
 	int						*sprite_order;
 	double				*sprite_dist;
@@ -212,5 +210,7 @@ void				ft_on_item_check(t_mlx *mlx, int p_x, int p_y);
 void				ft_read_map(char *map, t_mlx *mlx);
 
 void				ft_thread(t_mlx *mlx);
+
+void				ft_usage();
 
 #endif

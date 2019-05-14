@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/23 21:48:55 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/04/26 22:17:48 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 
-void ft_reset_image(t_mlx *mlx)
+void	ft_reset_image(t_mlx *mlx)
 {
 	mlx_destroy_image(mlx->mlx, mlx->img);
 	mlx->img = mlx_new_image(mlx->mlx, W, H);
@@ -107,7 +107,11 @@ int		key_press(int keycode, t_mlx *mlx)
 
 	if (keycode == 1739 || keycode == 114)
 	{
-		ft_reset_image(mlx);			//RESTART SHOULD RE READ MAP AND ETC
+		ft_reset_image(mlx);			//RESTART MUST RE READ MAP
+
+		// ft_read_map(mlx->map_file, mlx);
+		// ft_read_obj(mlx);
+		
 		ft_ray_start(mlx);
 		ft_thread(mlx);
 	}
@@ -132,9 +136,11 @@ int		main(int argc, char **argv)
 {
 	t_mlx *mlx;
 
+	(argc != 2) ? ft_usage() : 1;
+
 	mlx = (t_mlx *)malloc(sizeof(t_mlx));
 	mlx->player = (t_player *)malloc(sizeof(t_player));
-
+	
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, W, H, "Wolf3D");
 	mlx->img = mlx_new_image(mlx->mlx, W, H);
@@ -142,7 +148,8 @@ int		main(int argc, char **argv)
 
 	mlx->depth_buff = (double*)malloc(sizeof(double) * W);
 
-	ft_read_map(argv[1], mlx);
+	mlx->map_file = ft_strdup(argv[1]);
+	ft_read_map(mlx->map_file, mlx);
 
 	mlx->sprite_order = (int*)malloc(sizeof(int) * mlx->obj_count);
 	mlx->sprite_dist = (double*)malloc(sizeof(double) * mlx->obj_count);
@@ -157,9 +164,6 @@ int		main(int argc, char **argv)
 	ft_thread(mlx);
 
 	mlx_hook(mlx->win, 2, 1L << 0, key_press, mlx);
-	// mlx_hook(mlx->win, 4, 1L << 2, mouse_press, mlx);
-	// mlx_hook(mlx->win, 5, 1L << 3, mouse_release, mlx);
-	// mlx_hook(mlx->win, 6, 1L << 6, mouse_move, mlx);
 
 	mlx_loop(mlx->mlx);
 	return (0);
