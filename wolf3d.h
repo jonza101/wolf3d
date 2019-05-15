@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/05/06 18:57:18 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/15 18:45:04 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 #define WEAGLE 'W'
 #define WH 'H'
 
-#define OBJ 19
+#define OBJ 24
 
 #define SKELETON 'S'
 #define CLAMP 'L'
@@ -71,6 +71,11 @@
 #define FLAMP '!'
 #define FLAGPOLE 'i'
 #define GBARREL 'o'
+#define BUBBLER 'b'
+#define S_SKELETON 's'
+#define K_STUFF 'k'
+#define B_BONES '@'
+#define PILLAR 'p'
 
 #define COBJ 8
 
@@ -212,5 +217,7 @@ void				ft_read_map(char *map, t_mlx *mlx);
 void				ft_thread(t_mlx *mlx);
 
 void				ft_usage();
+
+void				ft_mem_error();
 
 #endif

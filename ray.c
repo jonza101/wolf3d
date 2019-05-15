@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/26 21:50:16 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/15 18:29:07 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,13 +159,6 @@ void	ft_objs_draw(t_mlx *mlx)
 		mlx->sprite_dist[j] = (powf(mlx->objs[j]->x - mlx->player->x, 2) + powf(mlx->objs[j]->y - mlx->player->y, 2));
 		j++;
     }
-	int x = 0;
-	// while (x < mlx->obj_count)
-	// {
-	// 	printf("%d ", mlx->sprite_order[x]);
-	// 	x++;
-	// }
-	//ft_qsort(mlx, 0, mlx->obj_count - 1);
 	ft_sort(mlx);
 
 	int i = 0;

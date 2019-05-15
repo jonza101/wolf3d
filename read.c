@@ -6,11 +6,17 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:03:30 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/19 20:00:04 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/15 18:54:17 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
+
+void	ft_mem_error()
+{
+	ft_putstr("Memory allocation error!\n");
+	ft_usage();
+}
 
 int		ft_get_tile_index(char c)
 {
@@ -80,6 +86,16 @@ int		ft_get_obj_index(char c)
 		return (17);
 	else if (c == GBARREL)
 		return (18);
+	else if (c == BUBBLER)
+		return (19);
+	else if (c == S_SKELETON)
+		return (20);
+	else if (c == K_STUFF)
+		return (21);
+	else if (c == B_BONES)
+		return (22);
+	else if (c == PILLAR)
+		return (23);
 }
 
 int		ft_get_cobj_index(char c)
@@ -213,7 +229,7 @@ int		ft_is_obj_lamp(char c)
 int		ft_is_obj_phys(char c)
 {
 	if (c == TREE || c == BARREL || c == TABLE || c == FWELL || c == EWELL || c == KNIGHT || c == VASE || c == TCHAIRS || c == BUSH
-		|| c == FLAMP || c == FLAGPOLE || c == GBARREL)
+		|| c == FLAMP || c == FLAGPOLE || c == GBARREL || c == BUBBLER || c == S_SKELETON || c == PILLAR)
 		return (1);
 	return (0);
 }
@@ -222,7 +238,8 @@ int		ft_obj_check_c(char c)
 {
 	if (c == SKELETON || c == CLAMP || c == BONES || c == CHAND || c == TREE || c == PUDDLE
 		|| c == BARREL || c == TABLE || c == FWELL || c == EWELL || c == DPOT || c == DEAD || c == KNIGHT || c == VASE || c == TCHAIRS
-		|| c == BUSH || c == FLAMP || c == FLAGPOLE || c == GBARREL)
+			|| c == BUSH || c == FLAMP || c == FLAGPOLE || c == GBARREL || c == BUBBLER || c == S_SKELETON || c == K_STUFF || c == B_BONES
+				|| c == PILLAR)
 		return (1);
 	return (0);
 }
@@ -236,7 +253,8 @@ void	ft_obj_check(t_mlx *mlx, char *line)
 	{
 		if (line[i] == SKELETON || line[i] == CLAMP || line[i] == BONES || line[i] == CHAND || line[i] == TREE || line[i] == PUDDLE || line[i] == BARREL
 			|| line[i] == TABLE || line[i] == FWELL || line[i] == EWELL || line[i] == DPOT || line[i] == DEAD || line[i] == KNIGHT || line[i] == VASE
-				|| line[i] == TCHAIRS || line[i] == BUSH || line[i] == FLAMP || line[i] == FLAGPOLE || line[i] == GBARREL)
+				|| line[i] == TCHAIRS || line[i] == BUSH || line[i] == FLAMP || line[i] == FLAGPOLE || line[i] == GBARREL || line[i] == BUBBLER
+					|| line[i] == S_SKELETON || line[i] == K_STUFF || line[i] == B_BONES || line[i] == PILLAR)
 			mlx->obj_count++;
 		if (line[i] == AMMO || line[i] == CROSS || line[i] == CUP || line[i] == CROWN || line[i] == CHEST || line[i] == FOOD || line[i] == DFOOD
 			|| line[i] == MEDKIT)
@@ -251,7 +269,8 @@ int		ft_tiles_check(char **map, int p_x, int p_y)
 		|| map[p_y][p_x] == EWELL || map[p_y][p_x] == AMMO || map[p_y][p_x] == CROSS || map[p_y][p_x] == CUP || map[p_y][p_x] == CROWN
 			|| map[p_y][p_x] == CHEST || map[p_y][p_x] == KNIGHT || map[p_y][p_x] == VASE || map[p_y][p_x] == TCHAIRS || map[p_y][p_x] == BUSH
 				|| map[p_y][p_x] == FLAMP || map[p_y][p_x] == FLAGPOLE || map[p_y][p_x] == GBARREL || map[p_y][p_x] == FOOD
-					|| map[p_y][p_x] == DFOOD || map[p_y][p_x] == MEDKIT)
+					|| map[p_y][p_x] == DFOOD || map[p_y][p_x] == MEDKIT || map[p_y][p_x] == BUBBLER || map[p_y][p_x] == S_SKELETON
+						|| map[p_y][p_x] == PILLAR)
 		return (0);
 	return (1);
 }
@@ -297,16 +316,20 @@ void	ft_lst_fill(t_mlx *mlx, t_cobj *root, double x, double y, int cobj_c, int c
 
 void	ft_lst_add_img(t_cobj *root)
 {
+	t_cobj * temp;
+
 	if (!root)
 		return ;
+	temp = root;
 	while (root->next_cobj)
 		root = root->next_cobj;
-
-	root->next_cobj = (t_cobj*)malloc(sizeof(t_cobj));
+	
+	(!(root->next_cobj = (t_cobj*)malloc(sizeof(t_cobj)))) ? ft_mem_error() : 1;
 	root = root->next_cobj;
-	root->img = (t_img*)malloc(sizeof(t_img));
+	(!(root->img = (t_img*)malloc(sizeof(t_img)))) ? ft_mem_error() : 1;	
 	root->img->w = 64;
 	root->img->h = 64;
+	root = temp;
 }
 
 void	ft_init_cobjects(t_mlx *mlx)
@@ -323,17 +346,19 @@ void	ft_init_cobjects(t_mlx *mlx)
 	mlx->cobj[6] = ft_strdup("textures/cobj/dog_food.xpm");
 	mlx->cobj[7] = ft_strdup("textures/cobj/medkit.xpm");
 
-	mlx->cobjs = (t_cobj*)malloc(sizeof(t_cobj));
-	mlx->cobjs->img = (t_img*)malloc(sizeof(t_img));
+	if (mlx->cobj_count < 0)
+		return ;
+	
+	(!(mlx->cobjs = (t_cobj*)malloc(sizeof(t_cobj)))) ? ft_mem_error() : 1;
+	(!(mlx->cobjs->img = (t_img*)malloc(sizeof(t_img)))) ? ft_mem_error() : 1;
 	mlx->cobjs->img->w = 64;
 	mlx->cobjs->img->h = 64;
 
-	if (mlx->cobj_count <= 1)
-		return ;
-
 	while (i < mlx->cobj_count)
 	{
+		printf("asd %d\n", i);
 		ft_lst_add_img(mlx->cobjs);	
+		printf("asd %d\n\n", i);
 		i++;
 	}
 }
@@ -360,13 +385,18 @@ void	ft_init_objects(t_mlx *mlx)
 	mlx->obj[16] = ft_strdup("textures/obj/floor_lamp.xpm");
 	mlx->obj[17] = ft_strdup("textures/obj/flagpole.xpm");
 	mlx->obj[18] = ft_strdup("textures/obj/g_barrel.xpm");
+	mlx->obj[19] = ft_strdup("textures/obj/bubbler.xpm");
+	mlx->obj[20] = ft_strdup("textures/obj/suspended_skeleton.xpm");
+	mlx->obj[21] = ft_strdup("textures/obj/kitchen_stuff.xpm");
+	mlx->obj[22] = ft_strdup("textures/obj/blood_bones.xpm");
+	mlx->obj[23] = ft_strdup("textures/obj/pillar.xpm");
 
 	i = 0;
-	mlx->objs = (t_obj**)malloc(sizeof(t_obj*) * mlx->obj_count);
+	(!(mlx->objs = (t_obj**)malloc(sizeof(t_obj*) * mlx->obj_count))) ? ft_mem_error() : 1;
 	while (i < mlx->obj_count)
 	{
-		mlx->objs[i] = (t_obj*)malloc(sizeof(t_obj));
-		mlx->objs[i]->img = (t_img*)malloc(sizeof(t_img));
+		(!(mlx->objs[i] = (t_obj*)malloc(sizeof(t_obj)))) ? ft_mem_error() : 1;
+		(!(mlx->objs[i]->img = (t_img*)malloc(sizeof(t_img)))) ? ft_mem_error() : 1;
 		mlx->objs[i]->img->w = 64;
 		mlx->objs[i]->img->h = 64;
 		i++;
@@ -381,11 +411,11 @@ void	ft_init_textures(t_mlx *mlx)
 			"textures/wooden_wall.xpm", "textures/wooden_eagle.xpm", "textures/wood_hit.xpm" };
 
 	i = 0;
-	mlx->textures = (t_img**)malloc(sizeof(t_img*) * TILES);
+	(!(mlx->textures = (t_img**)malloc(sizeof(t_img*) * TILES))) ? ft_mem_error() : 1;
 
 	while (i < TILES)
 	{
-		mlx->textures[i] = (t_img*)malloc(sizeof(t_img));
+		(!(mlx->textures[i] = (t_img*)malloc(sizeof(t_img)))) ? ft_mem_error() : 1;
 		mlx->textures[i]->w = 64;
 		mlx->textures[i]->h = 64;
 		mlx->textures[i]->img = mlx_xpm_file_to_image(mlx->mlx, tiles[i], &mlx->textures[i]->w, &mlx->textures[i]->h);

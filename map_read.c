@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:02:51 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/05/06 19:06:32 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/15 15:42:27 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ft_map_value_error(char c, int row, int col)
 	str = ft_strjoin(str, "Map value '");
 	str = ft_strjoin(str, s_c);
 	str = ft_strjoin(str, "' not found!\n");
+	ft_putstr("Map Error!\n");
 	ft_putstr(str);
 	ft_usage();
 }
@@ -166,7 +167,7 @@ void	ft_read_obj(t_mlx *mlx)
 		i++;
 	}
 	(player == 0) ? ft_player_error() : 1;
-	printf("asd %d\n", ft_bound_check(mlx));
+	//printf("asd %d\n", ft_bound_check(mlx));
 }
 
 void	ft_read_map(char *map, t_mlx *mlx)
