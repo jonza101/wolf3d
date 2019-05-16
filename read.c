@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:03:30 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/05/15 18:54:17 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/16 19:34:39 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int		ft_get_tile_index(char c)
 		return (10);
 	else if (c == WH)
 		return (11);
+	else if (c == BUNKWALL)
+		return (12);
 }
 
 int		ft_get_obj_index(char c)
@@ -96,6 +98,10 @@ int		ft_get_obj_index(char c)
 		return (22);
 	else if (c == PILLAR)
 		return (23);
+	else if (c == CAGE)
+		return (24);
+	else if (c == S_CAGE)
+		return (25);
 }
 
 int		ft_get_cobj_index(char c)
@@ -219,17 +225,10 @@ int		ft_cobj_check(char c)
 	return (0);
 }
 
-int		ft_is_obj_lamp(char c)
-{
-	if (c == CLAMP || c == CHAND)
-		return (1);
-	return (0);
-}
-
 int		ft_is_obj_phys(char c)
 {
 	if (c == TREE || c == BARREL || c == TABLE || c == FWELL || c == EWELL || c == KNIGHT || c == VASE || c == TCHAIRS || c == BUSH
-		|| c == FLAMP || c == FLAGPOLE || c == GBARREL || c == BUBBLER || c == S_SKELETON || c == PILLAR)
+		|| c == FLAMP || c == FLAGPOLE || c == GBARREL || c == BUBBLER || c == S_SKELETON || c == PILLAR || c == CAGE || c == S_CAGE)
 		return (1);
 	return (0);
 }
@@ -239,7 +238,7 @@ int		ft_obj_check_c(char c)
 	if (c == SKELETON || c == CLAMP || c == BONES || c == CHAND || c == TREE || c == PUDDLE
 		|| c == BARREL || c == TABLE || c == FWELL || c == EWELL || c == DPOT || c == DEAD || c == KNIGHT || c == VASE || c == TCHAIRS
 			|| c == BUSH || c == FLAMP || c == FLAGPOLE || c == GBARREL || c == BUBBLER || c == S_SKELETON || c == K_STUFF || c == B_BONES
-				|| c == PILLAR)
+				|| c == PILLAR || c == CAGE || c == S_CAGE)
 		return (1);
 	return (0);
 }
@@ -254,11 +253,11 @@ void	ft_obj_check(t_mlx *mlx, char *line)
 		if (line[i] == SKELETON || line[i] == CLAMP || line[i] == BONES || line[i] == CHAND || line[i] == TREE || line[i] == PUDDLE || line[i] == BARREL
 			|| line[i] == TABLE || line[i] == FWELL || line[i] == EWELL || line[i] == DPOT || line[i] == DEAD || line[i] == KNIGHT || line[i] == VASE
 				|| line[i] == TCHAIRS || line[i] == BUSH || line[i] == FLAMP || line[i] == FLAGPOLE || line[i] == GBARREL || line[i] == BUBBLER
-					|| line[i] == S_SKELETON || line[i] == K_STUFF || line[i] == B_BONES || line[i] == PILLAR)
+					|| line[i] == S_SKELETON || line[i] == K_STUFF || line[i] == B_BONES || line[i] == PILLAR || line[i] == CAGE || line[i] == S_CAGE)
 			mlx->obj_count++;
 		if (line[i] == AMMO || line[i] == CROSS || line[i] == CUP || line[i] == CROWN || line[i] == CHEST || line[i] == FOOD || line[i] == DFOOD
 			|| line[i] == MEDKIT)
-			mlx->cobj_count++;
+				mlx->cobj_count++;
 		i++;
 	}
 }
@@ -270,7 +269,7 @@ int		ft_tiles_check(char **map, int p_x, int p_y)
 			|| map[p_y][p_x] == CHEST || map[p_y][p_x] == KNIGHT || map[p_y][p_x] == VASE || map[p_y][p_x] == TCHAIRS || map[p_y][p_x] == BUSH
 				|| map[p_y][p_x] == FLAMP || map[p_y][p_x] == FLAGPOLE || map[p_y][p_x] == GBARREL || map[p_y][p_x] == FOOD
 					|| map[p_y][p_x] == DFOOD || map[p_y][p_x] == MEDKIT || map[p_y][p_x] == BUBBLER || map[p_y][p_x] == S_SKELETON
-						|| map[p_y][p_x] == PILLAR)
+						|| map[p_y][p_x] == PILLAR || map[p_y][p_x] == CAGE || map[p_y][p_x] == S_CAGE)
 		return (0);
 	return (1);
 }
@@ -314,27 +313,22 @@ void	ft_lst_fill(t_mlx *mlx, t_cobj *root, double x, double y, int cobj_c, int c
 	root->img->data = (int*)mlx_get_data_addr(root->img->img, &root->img->bpp, &root->img->size_line, &root->img->endian);
 }
 
-void	ft_lst_add_img(t_cobj *root)
+void	ft_lst_add_img(t_mlx *mlx)
 {
-	t_cobj * temp;
-
-	if (!root)
+	if (!mlx->cobjs)
 		return ;
-	temp = root;
-	while (root->next_cobj)
-		root = root->next_cobj;
 	
-	(!(root->next_cobj = (t_cobj*)malloc(sizeof(t_cobj)))) ? ft_mem_error() : 1;
-	root = root->next_cobj;
-	(!(root->img = (t_img*)malloc(sizeof(t_img)))) ? ft_mem_error() : 1;	
-	root->img->w = 64;
-	root->img->h = 64;
-	root = temp;
+	(!(mlx->cobjs->next_cobj = (t_cobj*)malloc(sizeof(t_cobj)))) ? ft_mem_error() : 1;
+	mlx->cobjs = mlx->cobjs->next_cobj;
+	(!(mlx->cobjs->img = (t_img*)malloc(sizeof(t_img)))) ? ft_mem_error() : 1;	
+	mlx->cobjs->img->w = 64;
+	mlx->cobjs->img->h = 64;
 }
 
 void	ft_init_cobjects(t_mlx *mlx)
 {
 	int i;
+	t_cobj *temp;
 
 	i = 1;
 	mlx->cobj[0] = ft_strdup("textures/cobj/ammo.xpm");
@@ -353,14 +347,14 @@ void	ft_init_cobjects(t_mlx *mlx)
 	(!(mlx->cobjs->img = (t_img*)malloc(sizeof(t_img)))) ? ft_mem_error() : 1;
 	mlx->cobjs->img->w = 64;
 	mlx->cobjs->img->h = 64;
+	temp = mlx->cobjs;
 
 	while (i < mlx->cobj_count)
 	{
-		printf("asd %d\n", i);
-		ft_lst_add_img(mlx->cobjs);	
-		printf("asd %d\n\n", i);
+		ft_lst_add_img(mlx);
 		i++;
 	}
+	mlx->cobjs = temp;
 }
 
 void	ft_init_objects(t_mlx *mlx)
@@ -390,6 +384,8 @@ void	ft_init_objects(t_mlx *mlx)
 	mlx->obj[21] = ft_strdup("textures/obj/kitchen_stuff.xpm");
 	mlx->obj[22] = ft_strdup("textures/obj/blood_bones.xpm");
 	mlx->obj[23] = ft_strdup("textures/obj/pillar.xpm");
+	mlx->obj[24] = ft_strdup("textures/obj/cage.xpm");
+	mlx->obj[25] = ft_strdup("textures/obj/skeleton_cage.xpm");
 
 	i = 0;
 	(!(mlx->objs = (t_obj**)malloc(sizeof(t_obj*) * mlx->obj_count))) ? ft_mem_error() : 1;
@@ -408,7 +404,7 @@ void	ft_init_textures(t_mlx *mlx)
 	int i;
 	char *tiles[TILES] = { "textures/blue_wall1.xpm", "textures/blue_wall2.xpm", "textures/blue_cell.xpm", "textures/blue_skeleton_cell.xpm",
 		"textures/gray_brick1.xpm", "textures/gray_brick2.xpm", "textures/gray_eagle.xpm", "textures/gray_flag.xpm", "textures/gray_hit.xpm",
-			"textures/wooden_wall.xpm", "textures/wooden_eagle.xpm", "textures/wood_hit.xpm" };
+			"textures/wooden_wall.xpm", "textures/wooden_eagle.xpm", "textures/wood_hit.xpm", "textures/bunker_wall.xpm" };
 
 	i = 0;
 	(!(mlx->textures = (t_img**)malloc(sizeof(t_img*) * TILES))) ? ft_mem_error() : 1;

@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:02:51 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/05/15 15:42:27 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/16 19:34:33 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,59 +64,59 @@ void	ft_map_error()
 int		ft_is_wall(char c)
 {
 	if (c == BW1 || c == BW2 || c == CELL || c == SCELL || c == GB1 || c == GB2 || c == EAGLE || c == FLAG || c == GH
-		|| c == WW || c == WEAGLE || c == WH)
+		|| c == WW || c == WEAGLE || c == WH || c == BUNKWALL)
 			return (1);
 	return (0);
 }
 
-int		ft_asd(t_mlx *mlx, int x, int y, int last_x, int last_y)
-{
-	if (mlx->map[y + 1][x] && ft_is_wall(mlx->map[y + 1][x]) && y + 1 != last_y)
-		return (ft_asd(mlx, x, y + 1, x, y));
-	if (mlx->map[y - 1][x] && ft_is_wall(mlx->map[y - 1][x]) && y - 1 != last_y)
-		return ft_asd(mlx, x, y - 1, x, y);
-	if (mlx->map[y][x + 1] && ft_is_wall(mlx->map[y][x + 1]) && x + 1 != last_x)
-		return ft_asd(mlx, x + 1, y, x, y);
-	if (mlx->map[y][x - 1] && ft_is_wall(mlx->map[y][x - 1]) && x - 1 != last_x)
-		return ft_asd(mlx, x - 1, y, x, y);
-	if (x == mlx->f_x && y == mlx->f_y && last_x != mlx->f_x && last_y != mlx->f_y)
-		return (1);
-	return (0);
-}
+// int		ft_asd(t_mlx *mlx, int x, int y, int last_x, int last_y)
+// {
+// 	if (mlx->map[y + 1][x] && ft_is_wall(mlx->map[y + 1][x]) && y + 1 != last_y)
+// 		return (ft_asd(mlx, x, y + 1, x, y));
+// 	if (mlx->map[y - 1][x] && ft_is_wall(mlx->map[y - 1][x]) && y - 1 != last_y)
+// 		return ft_asd(mlx, x, y - 1, x, y);
+// 	if (mlx->map[y][x + 1] && ft_is_wall(mlx->map[y][x + 1]) && x + 1 != last_x)
+// 		return ft_asd(mlx, x + 1, y, x, y);
+// 	if (mlx->map[y][x - 1] && ft_is_wall(mlx->map[y][x - 1]) && x - 1 != last_x)
+// 		return ft_asd(mlx, x - 1, y, x, y);
+// 	if (x == mlx->f_x && y == mlx->f_y && last_x != mlx->f_x && last_y != mlx->f_y)
+// 		return (1);
+// 	return (0);
+// }
 
-int		ft_bound_check(t_mlx *mlx)
-{
-	int i;
-	int j;
+// int		ft_bound_check(t_mlx *mlx)
+// {
+// 	int i;
+// 	int j;
 
-	i = 0;
-	while (i < mlx->row)
-	{
-		j = 0;
-		while (j < mlx->col)
-		{
-			if (!ft_is_wall(mlx->map[i][j]))
-			{
-				printf("%d		%d\n", i, j);
-				j++;
-			}
-			else
-			{
-				mlx->f_x = j;
-				mlx->f_y = i;
-				return (ft_asd(mlx, j, i, 0, 0));
-			}
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < mlx->row)
+// 	{
+// 		j = 0;
+// 		while (j < mlx->col)
+// 		{
+// 			if (!ft_is_wall(mlx->map[i][j]))
+// 			{
+// 				printf("%d		%d\n", i, j);
+// 				j++;
+// 			}
+// 			else
+// 			{
+// 				mlx->f_x = j;
+// 				mlx->f_y = i;
+// 				return (ft_asd(mlx, j, i, 0, 0));
+// 			}
+// 		}
+// 		i++;
+// 	}
+// }
 
 int		ft_map_value_check(char c)
 {
 	if (c == PLAYER)
 		return (1);
 	if (!ft_obj_check_c(c) && !ft_cobj_check(c) && c != SPACE && c != BW1 && c != BW2 && c != CELL && c != SCELL && c != GB1 && c != GB2 && c != EAGLE && c != FLAG
-		&& c != GH && c != WW && c != WEAGLE && c != WH)
+		&& c != GH && c != WW && c != WEAGLE && c != WH && c != BUNKWALL)
 		return (0);
 	return (1);
 }
@@ -149,7 +149,7 @@ void	ft_read_obj(t_mlx *mlx)
 			if (ft_obj_check_c(mlx->map[i][j]) == 1)
 			{
 				int index = ft_get_obj_index(mlx->map[i][j]);
-				mlx->objs[obj_c]->is_lamp = (ft_is_obj_lamp(mlx->map[i][j]) == 1) ? 1 : 0;
+				//mlx->objs[obj_c]->is_lamp = (ft_is_obj_lamp(mlx->map[i][j]) == 1) ? 1 : 0;
 				mlx->objs[obj_c]->img->img = mlx_xpm_file_to_image(mlx->mlx, mlx->obj[index], &mlx->objs[obj_c]->img->w, &mlx->objs[obj_c]->img->h);
 				mlx->objs[obj_c]->img->data = (int*)mlx_get_data_addr(mlx->objs[obj_c]->img->img, &mlx->objs[obj_c]->img->bpp, &mlx->objs[obj_c]->img->size_line, &mlx->objs[obj_c]->img->endian);
 				(!ft_is_obj_phys(mlx->map[i][j])) ? mlx->map[i][j] = '0' : 1;
@@ -191,6 +191,7 @@ void	ft_read_map(char *map, t_mlx *mlx)
 		mlx->row++;
 		i++;
 	}
+	free(line);
 	i = 0;
 	close(fd);
 	fd = open(map, O_RDONLY);
@@ -198,13 +199,12 @@ void	ft_read_map(char *map, t_mlx *mlx)
 	while (i < mlx->row)
 	{
 		(get_next_line(fd, &line) != 1) ? ft_map_error() : 1;
-		mlx->map[i] = (char*)malloc(sizeof(char) * mlx->col);
-		mlx->map[i] = ft_strncpy(mlx->map[i], line, mlx->col);
+		mlx->map[i] = ft_strdup(line);
 		i++;
 	}
+	printf("\n\n");
 	printf("row %d		col %d\n", mlx->row, mlx->col);
 	printf("obj count %d\n", mlx->obj_count);
 	printf("cobj count %d\n\n", mlx->cobj_count);
 	close(fd);
 }
-

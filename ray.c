@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/05/15 18:29:07 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/16 14:44:29 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,7 @@ void	ft_cobjs_draw(t_mlx *mlx)
 						int obj_col = (int)(obj_middle + ox - (obj_w / 2.0));
 						if (obj_col >= 0 && obj_col < W)
 							if (color != 0x980088 && mlx->depth_buff[obj_col] >= dist_from_player)
-							{
 								ft_image(mlx, obj_col, obj_ceiling + oy, color);
-								//mlx->depth_buff[obj_col] = dist_from_player;
-								//(mlx->cobjs->is_lamp == 0) ? mlx->depth_buff[obj_col] = dist_from_player : 1;
-							}
 						oy++;
 					}
 					ox++;
@@ -167,7 +163,6 @@ void	ft_objs_draw(t_mlx *mlx)
 	{
 		double vector_x = mlx->objs[mlx->sprite_order[i]]->x - mlx->player->x;
 		double vector_y = mlx->objs[mlx->sprite_order[i]]->y - mlx->player->y;
-		//printf("%d\n", mlx->sprite_order[i]);
 
 		double dist_from_player = sqrtf(vector_x * vector_x + vector_y * vector_y);
 		

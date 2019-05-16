@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/05/15 18:45:15 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/16 19:34:47 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,28 +142,25 @@ int		main(int argc, char **argv)
 	(!(mlx->player = (t_player *)malloc(sizeof(t_player)))) ? ft_mem_error() : 1;
 	
 	mlx->mlx = mlx_init();
-	mlx->win = mlx_new_window(mlx->mlx, W, H, "Wolf3D");
 	mlx->img = mlx_new_image(mlx->mlx, W, H);
-	mlx->data = (int *)mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line, &mlx->endian);
 
 	(!(mlx->depth_buff = (double*)malloc(sizeof(double) * W))) ? ft_mem_error() : 1;
 
 	mlx->map_file = ft_strdup(argv[1]);
 	ft_read_map(mlx->map_file, mlx);
 
-	printf("asd1\n\n");
-
 	(!(mlx->sprite_order = (int*)malloc(sizeof(int) * mlx->obj_count))) ? ft_mem_error() : 1;
 	(!(mlx->sprite_dist = (double*)malloc(sizeof(double) * mlx->obj_count))) ? ft_mem_error() : 1;
 
 	ft_init_textures(mlx);
-	// printf("asd\n");
+	
 	ft_init_objects(mlx);
-	// printf("asd\n");
 	ft_init_cobjects(mlx);
-	// printf("asd\n");
-
+	
 	ft_read_obj(mlx);
+
+	mlx->win = mlx_new_window(mlx->mlx, W, H, "Wolf3D");
+	mlx->data = (int *)mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line, &mlx->endian);
 
 	ft_ray_start(mlx);
 	ft_thread(mlx);

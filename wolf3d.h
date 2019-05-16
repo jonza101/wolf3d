@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/05/15 18:45:04 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/16 19:34:21 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 #define PLAYER 'P'
 
-#define TILES 12
+#define TILES 13
 
 #define SPACE '0'
 #define BW1 '1'
@@ -49,8 +49,9 @@
 #define WW '5'
 #define WEAGLE 'W'
 #define WH 'H'
+#define BUNKWALL '%'
 
-#define OBJ 24
+#define OBJ 26
 
 #define SKELETON 'S'
 #define CLAMP 'L'
@@ -76,6 +77,8 @@
 #define K_STUFF 'k'
 #define B_BONES '@'
 #define PILLAR 'p'
+#define CAGE 'J'
+#define S_CAGE 'j'
 
 #define COBJ 8
 

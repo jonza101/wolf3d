@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:20:31 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/04/17 18:51:54 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/05/16 19:34:56 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,3 @@ void	ft_draw_interface(t_mlx *mlx)
 	free(score_str);
 	free(hp_str);
 }
-
