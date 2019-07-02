@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linux_keys.h                                       :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/25 13:28:49 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/03/25 14:00:13 by zjeyne-l         ###   ########.fr       */
+/*   Created: 2018/11/22 14:47:39 by zjeyne-l          #+#    #+#             */
+/*   Updated: 2018/11/27 14:58:07 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LINUX_KEYS_H
-# define LINUX_KEYS_H
+#include "libft.h"
 
-#endif
+void	ft_bzero(void *str, size_t n)
+{
+	unsigned char	*temp;
+	int				i;
+
+	i = 0;
+	temp = (unsigned char*)str;
+	while (n-- > 0)
+	{
+		temp[i] = 0;
+		i++;
+	}
+}
