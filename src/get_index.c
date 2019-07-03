@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 16:52:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 16:53:34 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:10 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 int		ft_get_tile_index_t(char c)
 {

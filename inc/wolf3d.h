@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 19:15:01 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:01:26 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define WOLF3D_H
 
 # include "mlx.h"
-# include "gnl/get_next_line.h"
+# include "../gnl/get_next_line.h"
 
 # include "mac_keys.h"
 

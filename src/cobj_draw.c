@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   obj_draw.c                                         :+:      :+:    :+:   */
+/*   cobj_draw.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/02 19:00:21 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 19:26:42 by zjeyne-l         ###   ########.fr       */
+/*   Created: 2019/07/02 19:27:42 by zjeyne-l          #+#    #+#             */
+/*   Updated: 2019/07/03 12:59:56 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
-void	ft_obj_dist_sort(t_mlx *mlx)
+void	ft_cobj_pos_calc(t_mlx *mlx)
 {
-	int j;
-
-	j = -1;
-	while (++j < mlx->obj_count)
-	{
-		mlx->sprite_order[j] = j;
-		mlx->sprite_dist[j] = (powf(mlx->objs[j]->x - mlx->player->x, 2)
-							+ powf(mlx->objs[j]->y - mlx->player->y, 2));
-	}
-	ft_sort(mlx);
-}
-
-void	ft_obj_pos_calc(t_mlx *mlx, int i)
-{
-	mlx->vec_x = mlx->objs[mlx->sprite_order[i]]->x - mlx->player->x;
-	mlx->vec_y = mlx->objs[mlx->sprite_order[i]]->y - mlx->player->y;
+	mlx->vec_x = mlx->cobjs->x - mlx->player->x;
+	mlx->vec_y = mlx->cobjs->y - mlx->player->y;
 	mlx->dist_from_player = sqrtf(mlx->vec_x * mlx->vec_x
 							+ mlx->vec_y * mlx->vec_y);
 	mlx->eye_x = sinf(mlx->player->pov);
@@ -43,26 +29,26 @@ void	ft_obj_pos_calc(t_mlx *mlx, int i)
 	mlx->in_fov = (fabs(mlx->obj_angle) <= mlx->player->fov / 1.0f) ? 1 : 0;
 }
 
-void	ft_obj_specs_calc(t_mlx *mlx, int i)
+void	ft_cobj_specs_calc(t_mlx *mlx)
 {
 	mlx->obj_ceiling = (double)(H / 2.0) - (double)H
 							/ (double)mlx->dist_from_player
 							/ mlx->player->fov;
 	mlx->obj_floor = (double)H - (double)mlx->obj_ceiling;
 	mlx->obj_h = (double)mlx->obj_floor - (double)mlx->obj_ceiling;
-	mlx->obj_aspect_ratio = (double)mlx->objs[mlx->sprite_order[i]]->img->w
-							/ (double)mlx->objs[mlx->sprite_order[i]]->img->h;
+	mlx->obj_aspect_ratio = (double)mlx->cobjs->img->h
+							/ (double)mlx->cobjs->img->w;
 	mlx->obj_w = (double)mlx->obj_h / (double)mlx->obj_aspect_ratio;
 	mlx->obj_middle = (double)(0.5 * (mlx->obj_angle
 							/ (mlx->player->fov / 2.0)) + 0.5) * (double)W;
 }
 
-void	ft_obj_sample_calc(t_mlx *mlx, int ox, int oy, int i)
+void	ft_cobj_sample_calc(t_mlx *mlx, int ox, int oy)
 {
 	mlx->sample_ox = ox / mlx->obj_w;
 	mlx->sample_oy = oy / mlx->obj_h;
 	mlx->obj_color = ft_texture_sampling(
-							mlx->objs[mlx->sprite_order[i]]->img,
+							mlx->cobjs->img,
 							mlx->sample_ox, mlx->sample_oy);
 	mlx->obj_col = (int)(mlx->obj_middle + ox - (mlx->obj_w / 2.0));
 	if (mlx->obj_col >= 0 && mlx->obj_col < W)
@@ -71,20 +57,19 @@ void	ft_obj_sample_calc(t_mlx *mlx, int ox, int oy, int i)
 			ft_image(mlx, mlx->obj_col, mlx->obj_ceiling + oy, mlx->obj_color);
 }
 
-void	ft_objs_draw(t_mlx *mlx)
+void	ft_cobjs_draw(t_mlx *mlx)
 {
-	int i;
-	int ox;
-	int oy;
+	int		ox;
+	int		oy;
+	t_cobj	*temp;
 
-	i = -1;
-	ft_obj_dist_sort(mlx);
-	while (++i < mlx->obj_count)
+	temp = mlx->cobjs;
+	while (mlx->cobjs)
 	{
-		ft_obj_pos_calc(mlx, i);
+		ft_cobj_pos_calc(mlx);
 		if (mlx->in_fov == 1 && mlx->dist_from_player < mlx->depth)
 		{
-			ft_obj_specs_calc(mlx, i);
+			ft_cobj_specs_calc(mlx);
 			if (mlx->obj_h < H || mlx->obj_w < W)
 			{
 				ox = -1;
@@ -92,9 +77,11 @@ void	ft_objs_draw(t_mlx *mlx)
 				{
 					oy = -1;
 					while (++oy < mlx->obj_h)
-						ft_obj_sample_calc(mlx, ox, oy, i);
+						ft_cobj_sample_calc(mlx, ox, oy);
 				}
 			}
 		}
+		mlx->cobjs = mlx->cobjs->next_cobj;
 	}
+	mlx->cobjs = temp;
 }

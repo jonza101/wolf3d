@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 17:00:39 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 17:01:02 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 12:59:47 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 int		ft_walls_check(char **map, int player_x, int player_y)
 {

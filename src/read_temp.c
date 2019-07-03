@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 14:58:04 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 16:28:45 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:33 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 void	ft_player_tmp(t_mlx *mlx, int i, int j)
 {

@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 17:24:29 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 18:32:57 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 12:59:58 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 void	ft_cobj_tmp_hp(t_mlx *mlx, int p_x, int p_y)
 {

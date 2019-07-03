@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 17:03:46 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 17:04:22 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:18 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 void	ft_lst_fill(t_mlx *mlx, t_cobj *root, double x, double y)
 {

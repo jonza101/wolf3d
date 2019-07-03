@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:02:51 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 16:17:51 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:22 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 int		ft_is_wall(char c)
 {
@@ -81,14 +81,13 @@ void	ft_read_map(char *map, t_mlx *mlx)
 {
 	int		fd;
 	char	*line;
-	char	**temp;
 
 	((fd = open(map, O_RDONLY)) < 0) ? ft_map_error() : 1;
 	(get_next_line(fd, &line) <= 0) ? ft_map_error() : 1;
 	ft_read_init(mlx, line);
 	while (get_next_line(fd, &line) == 1)
 	{
-		(ft_strlen(line) != mlx->col) ? ft_map_error() : 1;
+		((int)ft_strlen(line) != mlx->col) ? ft_map_error() : 1;
 		ft_obj_check(mlx, line);
 		mlx->row++;
 		mlx->read_i++;

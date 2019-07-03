@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 16:55:47 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 16:57:39 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:07 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 int		ft_get_cobj_index(char c)
 {

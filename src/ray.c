@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 18:55:55 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 19:32:04 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:31 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 void	ft_ray_start(t_mlx *mlx)
 {
@@ -28,7 +28,6 @@ void	ft_ray_cast(t_mlx *mlx)
 {
 	int x;
 	int w;
-	int y;
 
 	x = (W / THREAD) * (mlx->mlx_index % THREAD) - 1;
 	w = (W / THREAD) * (mlx->mlx_index % THREAD) + (W / THREAD);

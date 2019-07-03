@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:20:31 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 19:09:09 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:06:17 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 void	ft_image(t_mlx *mlx, int x, int y, int color)
 {

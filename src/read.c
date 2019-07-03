@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:03:30 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 18:36:40 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:36 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 void	ft_mem_error(void)
 {

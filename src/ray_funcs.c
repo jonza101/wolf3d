@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 18:11:02 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 18:50:50 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:28 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 void	ft_hit_calc(t_mlx *mlx)
 {

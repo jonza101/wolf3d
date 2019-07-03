@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:54:13 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 16:18:20 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:15 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 void	ft_init_cobj_sprites(t_mlx *mlx)
 {

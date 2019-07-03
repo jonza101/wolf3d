@@ -6,11 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 17:06:11 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/02 17:07:07 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:00:13 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../inc/wolf3d.h"
 
 void	ft_init_cobjects(t_mlx *mlx)
 {
