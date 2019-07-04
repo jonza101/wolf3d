@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 13:01:26 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/04 12:10:15 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,10 @@ typedef struct		s_player
 	int				ammo;
 	int				score;
 	int				hp;
+
+	int				wsad[4];
+	int				left;
+	int				right;
 }					t_player;
 
 typedef struct		s_mlx
@@ -317,5 +321,7 @@ void				ft_texturing_calc(t_mlx *mlx, int p_x, int p_y);
 void				ft_hit_calc(t_mlx *mlx);
 
 void				ft_sort(t_mlx *mlx);
+
+void				ft_move_calc(t_mlx *mlx);
 
 #endif

@@ -6,59 +6,39 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 13:00:20 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/04 12:15:10 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/wolf3d.h"
 
-void	ft_key_tmp(int keycode, t_mlx *mlx)
+int		ft_key_realese(int keycode, t_mlx *mlx)
 {
-	if (keycode == MAC_D)
-	{
-		if (ft_walls_check(mlx->map, (int)(mlx->player->x +
-					cosf(mlx->player->pov) * 0.5), (int)mlx->player->y))
-			mlx->player->x += cosf(mlx->player->pov) * 0.25;
-		if (ft_walls_check(mlx->map, (int)mlx->player->x,
-					(int)(mlx->player->y - sinf(mlx->player->pov) * 0.5)))
-			mlx->player->y -= sinf(mlx->player->pov) * 0.25;
-		ft_on_item_check(mlx, (int)mlx->player->x, (int)mlx->player->y);
-	}
+	if (keycode == MAC_LEFT)
+		mlx->player->left = 0;
+	if (keycode == MAC_RIGHT)
+		mlx->player->right = 0;
+	if (keycode == MAC_W)
+		mlx->player->wsad[0] = 0;
+	if (keycode == MAC_S)
+		mlx->player->wsad[1] = 0;
 	if (keycode == MAC_A)
-	{
-		if (ft_walls_check(mlx->map, (int)(mlx->player->x -
-					cosf(mlx->player->pov) * 0.5), (int)mlx->player->y))
-			mlx->player->x -= cosf(mlx->player->pov) * 0.25;
-		if (ft_walls_check(mlx->map, (int)mlx->player->x,
-					(int)(mlx->player->y + sinf(mlx->player->pov) * 0.5)))
-			mlx->player->y += sinf(mlx->player->pov) * 0.25;
-		ft_on_item_check(mlx, (int)mlx->player->x, (int)mlx->player->y);
-	}
+		mlx->player->wsad[2] = 0;
+	if (keycode == MAC_D)
+		mlx->player->wsad[3] = 0;
+	return (0);
 }
 
 void	ft_key_temp(int keycode, t_mlx *mlx)
 {
 	if (keycode == MAC_W)
-	{
-		if ((ft_walls_check(mlx->map, (int)(mlx->player->x +
-					sinf(mlx->player->pov) * 0.8), (int)mlx->player->y)))
-			mlx->player->x += sinf(mlx->player->pov) * 0.35;
-		if (ft_walls_check(mlx->map, (int)mlx->player->x,
-					(int)(mlx->player->y + cosf(mlx->player->pov) * 0.8)))
-			mlx->player->y += cosf(mlx->player->pov) * 0.35;
-		ft_on_item_check(mlx, (int)mlx->player->x, (int)mlx->player->y);
-	}
+		mlx->player->wsad[0] = 1;
 	if (keycode == MAC_S)
-	{
-		if ((ft_walls_check(mlx->map, (int)(mlx->player->x -
-					sinf(mlx->player->pov) * 0.8), (int)mlx->player->y)))
-			mlx->player->x -= sinf(mlx->player->pov) * 0.35;
-		if (ft_walls_check(mlx->map, (int)mlx->player->x,
-					(int)(mlx->player->y - cosf(mlx->player->pov) * 0.8)))
-			mlx->player->y -= cosf(mlx->player->pov) * 0.35;
-		ft_on_item_check(mlx, (int)mlx->player->x, (int)mlx->player->y);
-	}
-	ft_key_tmp(keycode, mlx);
+		mlx->player->wsad[1] = 1;
+	if (keycode == MAC_A)
+		mlx->player->wsad[2] = 1;
+	if (keycode == MAC_D)
+		mlx->player->wsad[3] = 1;
 }
 
 int		ft_key_press(int keycode, t_mlx *mlx)
@@ -68,8 +48,10 @@ int		ft_key_press(int keycode, t_mlx *mlx)
 		mlx->player->fov += 0.02;
 	if (keycode == MAC_MINUS && mlx->player->fov > 1.06465f)
 		mlx->player->fov -= 0.02;
-	(keycode == MAC_LEFT) ? mlx->player->pov -= 0.065 : 1;
-	(keycode == MAC_RIGHT) ? mlx->player->pov += 0.065 : 1;
+	if (keycode == MAC_LEFT)
+		mlx->player->left = 1;
+	if (keycode == MAC_RIGHT)
+		mlx->player->right = 1;
 	ft_key_temp(keycode, mlx);
 	if (keycode == MAC_NUM_MINUS && mlx->player->hp > 5)
 		mlx->player->hp -= 5;
@@ -94,6 +76,8 @@ void	ft_init(t_mlx *mlx)
 	ft_init_objects(mlx);
 	ft_init_cobjects(mlx);
 	ft_read_obj(mlx);
+	mlx->player->left = 0;
+	mlx->player->right = 0;
 }
 
 int		main(int argc, char **argv)
@@ -114,6 +98,7 @@ int		main(int argc, char **argv)
 								&mlx->size_line, &mlx->endian);
 	ft_ray_start(mlx);
 	mlx_hook(mlx->win, 2, 1L << 0, ft_key_press, mlx);
+	mlx_hook(mlx->win, 3, 0, ft_key_realese, mlx);
 	mlx_loop_hook(mlx->mlx, ft_game_loop, mlx);
 	mlx_hook(mlx->win, 17, 1L << 0, ft_close, (void*)1);
 	mlx_loop(mlx->mlx);
