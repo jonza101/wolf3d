@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 14:28:38 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/04 12:10:21 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/06 18:46:22 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int		ft_close(int i)
 int		ft_game_loop(t_mlx *mlx)
 {
 	if (mlx->player->left)
-		mlx->player->pov -= 0.035f;
+		mlx->player->pov -= 0.04f;
 	if (mlx->player->right)
-		mlx->player->pov += 0.035f;
+		mlx->player->pov += 0.04f;
 	ft_move_calc(mlx);
 	ft_reset_image(mlx);
 	ft_thread(mlx);

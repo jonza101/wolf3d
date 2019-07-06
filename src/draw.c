@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:20:31 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 13:06:17 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/06 18:56:39 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_image(t_mlx *mlx, int x, int y, int color)
 {
-	if (x >= 0 && x < W && y >= 0 && y < H)
+	if (x >= 0 && x < W && y >= 0 && y < H && color != IGNORE_COLOR)
 		mlx->data[x + y * W] = mlx_get_color_value(mlx->mlx, color);
 }
 
