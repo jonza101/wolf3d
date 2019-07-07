@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 12:14:57 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/04 12:15:17 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/07 14:16:32 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_move_calc(t_mlx *mlx)
 	if (mlx->player->wsad[0])
 	{
 		if ((ft_walls_check(mlx->map, (int)(mlx->player->x +
-					sinf(mlx->player->pov) * 0.8), (int)mlx->player->y)))
+					sinf(mlx->player->pov) * 0.5), (int)mlx->player->y)))
 			mlx->player->x += sinf(mlx->player->pov) * 0.15;
 		if (ft_walls_check(mlx->map, (int)mlx->player->x,
 					(int)(mlx->player->y + cosf(mlx->player->pov) * 0.8)))
@@ -51,7 +51,7 @@ void	ft_move_calc(t_mlx *mlx)
 	if (mlx->player->wsad[1])
 	{
 		if ((ft_walls_check(mlx->map, (int)(mlx->player->x -
-					sinf(mlx->player->pov) * 0.8), (int)mlx->player->y)))
+					sinf(mlx->player->pov) * 0.5), (int)mlx->player->y)))
 			mlx->player->x -= sinf(mlx->player->pov) * 0.1;
 		if (ft_walls_check(mlx->map, (int)mlx->player->x,
 					(int)(mlx->player->y - cosf(mlx->player->pov) * 0.8)))

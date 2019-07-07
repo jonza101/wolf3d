@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 15:54:13 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 13:00:15 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/07 14:24:52 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,11 @@ void	ft_init_tiles(t_mlx *mlx)
 	mlx->tiles[10] = ft_strdup("textures/wooden_eagle.xpm");
 	mlx->tiles[11] = ft_strdup("textures/wood_hit.xpm");
 	mlx->tiles[12] = ft_strdup("textures/bunker_wall.xpm");
+}
+
+void	ft_init_dark_tiles(t_mlx *mlx)
+{
+	mlx->dark_tiles[0] = ft_strdup("textures/gray_brick1_s.xpm");
+	mlx->dark_tiles[1] = ft_strdup("textures/gray_brick2_s.xpm");
+	mlx->dark_tiles[2] = ft_strdup("textures/wooden_wall_s.xpm");
 }

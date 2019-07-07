@@ -6,11 +6,31 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 18:11:02 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 13:00:28 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/07 15:13:36 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/wolf3d.h"
+
+void	ft_color_calc(t_mlx *mlx)
+{
+	if (mlx->dark == 1 && mlx->dark_switch == 1)
+	{
+		if ((mlx->tile_index >= 4 && mlx->tile_index <= 5)
+				|| mlx->tile_index == 9)
+			mlx->color = ft_texture_sampling(mlx->textures_d
+							[ft_get_dark_index(mlx->tile_index)],
+							mlx->sample_x, mlx->sample_y);
+		else
+			mlx->color = ft_texture_sampling(
+							mlx->textures[mlx->tile_index],
+							mlx->sample_x, mlx->sample_y) >> 1;
+	}
+	else
+		mlx->color = ft_texture_sampling(
+							mlx->textures[mlx->tile_index],
+							mlx->sample_x, mlx->sample_y);
+}
 
 void	ft_hit_calc(t_mlx *mlx)
 {
@@ -39,6 +59,7 @@ void	ft_ray_iter_init(t_mlx *mlx, int x)
 	mlx->sample_x = 0;
 	mlx->eye_angle_x = sinf(mlx->iter_angle);
 	mlx->eye_angle_y = cosf(mlx->iter_angle);
+	mlx->dark = 0;
 }
 
 void	ft_texturing_calc(t_mlx *mlx, int p_x, int p_y)
@@ -52,13 +73,22 @@ void	ft_texturing_calc(t_mlx *mlx, int p_x, int p_y)
 	mlx->txt_angle = atan2f(mlx->point_y - mlx->block_mid_y,
 							mlx->point_x - mlx->block_mid_x);
 	if (mlx->txt_angle >= -3.14159 * 0.25 && mlx->txt_angle < 3.14159 * 0.25)
+	{
 		mlx->sample_x = mlx->point_y - (double)p_y;
-	if (mlx->txt_angle >= 3.14159 * 0.25 && mlx->txt_angle < 3.14159 * 0.75)
+		mlx->dark = 1;
+	}
+	else if (mlx->txt_angle >= 3.14159 * 0.25
+			&& mlx->txt_angle < 3.14159 * 0.75)
 		mlx->sample_x = mlx->point_x - (double)p_x;
-	if (mlx->txt_angle < -3.14159 * 0.25 && mlx->txt_angle >= -3.14159 * 0.75)
+	else if (mlx->txt_angle < -3.14159 * 0.25
+			&& mlx->txt_angle >= -3.14159 * 0.75)
 		mlx->sample_x = mlx->point_x - (double)p_x;
-	if (mlx->txt_angle >= 3.14159 * 0.75 || mlx->txt_angle < -3.14159 * 0.75)
+	else if (mlx->txt_angle >= 3.14159 * 0.75
+			|| mlx->txt_angle < -3.14159 * 0.75)
+	{
 		mlx->sample_x = mlx->point_y - (double)p_y;
+		mlx->dark = 1;
+	}
 }
 
 void	ft_col_fill(t_mlx *mlx, int x)
@@ -76,9 +106,8 @@ void	ft_col_fill(t_mlx *mlx, int x)
 			{
 				mlx->sample_y = ((double)y - (double)mlx->ceiling)
 								/ ((double)mlx->floor - (double)mlx->ceiling);
-				ft_image(mlx, x, y, ft_texture_sampling(
-								mlx->textures[mlx->tile_index],
-								mlx->sample_x, mlx->sample_y));
+				ft_color_calc(mlx);
+				ft_image(mlx, x, y, mlx->color);
 			}
 			else
 				ft_image(mlx, x, y, CEILING);

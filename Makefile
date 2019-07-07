@@ -6,7 +6,7 @@
 #    By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/11 19:33:51 by zjeyne-l          #+#    #+#              #
-#    Updated: 2019/07/03 13:03:31 by zjeyne-l         ###   ########.fr        #
+#    Updated: 2019/07/07 12:36:02 by zjeyne-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ LIB = -lft
 MLX = -lpthread -lmlx -framework OpenGL -framework AppKit
 
 # COMPILATION RULES
-FLAGS = -Wall -Wextra -Werror -std=c99 -Ofast
+FLAGS =  -std=c99 -Ofast
 NAME = wolf3d
 
 .PHONY: all clean fclean re

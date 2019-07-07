@@ -6,11 +6,22 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 16:55:47 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 13:00:07 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/07 14:07:20 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/wolf3d.h"
+
+int		ft_get_dark_index(int index)
+{
+	if (index == 4)
+		return (0);
+	else if (index == 5)
+		return (1);
+	else if (index == 9)
+		return (2);
+	return (-1);
+}
 
 int		ft_get_cobj_index(char c)
 {

@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/06 18:58:23 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/07 15:04:51 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef	struct		s_img
 	int				w;
 	int				h;
 	int				*data;
+	int				*dark_data;
 	int				bpp;
 	int				size_line;
 	int				endian;
@@ -184,12 +185,17 @@ typedef struct		s_mlx
 	double			sample_oy;
 	int				obj_color;
 	int				obj_col;
+	int				dark;
+	int				dark_switch;
+	int				color;
 
 	char			**map;
 	char			*map_file;
 
 	char			*tiles[TILES];
+	char			*dark_tiles[3];
 	t_img			**textures;
+	t_img			**textures_d;
 	int				tile_index;
 
 	int				obj_count;
@@ -288,10 +294,13 @@ void				ft_read_init(t_mlx *mlx, char *line);
 void				ft_init_obj_sprites(t_mlx *mlx);
 void				ft_init_obj_sprites_t(t_mlx *mlx);
 void				ft_init_tiles(t_mlx *mlx);
+void				ft_init_dark(t_mlx *mlx);
+void				ft_init_dark_tiles(t_mlx *mlx);
 void				ft_init_cobj_sprites(t_mlx *mlx);
 
 int					ft_get_tile_index(char c);
 int					ft_get_tile_index_t(char c);
+int					ft_get_dark_index(int index);
 
 int					ft_get_obj_index(char c);
 int					ft_get_obj_index_t(char c);

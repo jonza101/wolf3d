@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 17:06:11 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 13:00:13 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/07 13:52:50 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,32 @@ void	ft_init_objects(t_mlx *mlx)
 							? ft_mem_error() : 1;
 		mlx->objs[i]->img->w = 64;
 		mlx->objs[i]->img->h = 64;
+	}
+}
+
+void	ft_init_dark(t_mlx *mlx)
+{
+	int i;
+
+	i = -1;
+	ft_init_dark_tiles(mlx);
+	(!(mlx->textures_d = (t_img**)malloc(sizeof(t_img*)
+							* 3))) ? ft_mem_error() : 1;
+	while (++i < 3)
+	{
+		(!(mlx->textures_d[i] = (t_img*)malloc(sizeof(t_img))))
+							? ft_mem_error() : 1;
+		mlx->textures_d[i]->w = 64;
+		mlx->textures_d[i]->h = 64;
+		mlx->textures_d[i]->img = mlx_xpm_file_to_image(
+							mlx->mlx, mlx->dark_tiles[i],
+							&mlx->textures_d[i]->w,
+							&mlx->textures_d[i]->h);
+		mlx->textures_d[i]->data = (int*)mlx_get_data_addr(
+							mlx->textures_d[i]->img,
+							&mlx->textures_d[i]->bpp,
+							&mlx->textures_d[i]->size_line,
+							&mlx->textures_d[i]->endian);
 	}
 }
 

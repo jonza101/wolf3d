@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/06 18:42:42 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/07 15:06:11 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int		ft_key_press(int keycode, t_mlx *mlx)
 		mlx->depth--;
 	if (keycode == MAC_DOT && mlx->depth < 64)
 		mlx->depth++;
+	if (keycode == MAC_Z)
+		mlx->dark_switch = !mlx->dark_switch;
 	return (0);
 }
 
@@ -73,11 +75,13 @@ void	ft_init(t_mlx *mlx)
 	(!(mlx->sprite_dist = (double*)malloc(sizeof(double)
 					* mlx->obj_count))) ? ft_mem_error() : 1;
 	ft_init_textures(mlx);
+	ft_init_dark(mlx);
 	ft_init_objects(mlx);
 	ft_init_cobjects(mlx);
 	ft_read_obj(mlx);
 	mlx->player->left = 0;
 	mlx->player->right = 0;
+	mlx->dark_switch = 0;
 }
 
 int		main(int argc, char **argv)
