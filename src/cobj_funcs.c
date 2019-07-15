@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 17:24:29 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 12:59:58 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/15 18:54:25 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	ft_cobj_tmp_hp(t_mlx *mlx, int p_x, int p_y)
 {
-	if (mlx->cobjs->next_cobj->is == 2)
+	if (mlx->cobjs->is == 2)
 		mlx->player->hp += 10;
-	else if (mlx->cobjs->next_cobj->is == 3)
+	else if (mlx->cobjs->is == 3)
 		mlx->player->hp += 4;
-	else if (mlx->cobjs->next_cobj->is == 4)
+	else if (mlx->cobjs->is == 4)
 		mlx->player->hp += 25;
 	(mlx->player->hp > 100) ? mlx->player->hp = 100 : 1;
 	mlx->map[p_y][p_x] = SPACE;
@@ -26,12 +26,12 @@ void	ft_cobj_tmp_hp(t_mlx *mlx, int p_x, int p_y)
 
 void	ft_cobj_t(t_mlx *mlx, int p_x, int p_y, t_cobj *tmp)
 {
-	if (mlx->cobjs->next_cobj->is == 0)
+	if (mlx->cobjs->is == 0)
 	{
 		mlx->player->ammo += 5;
 		mlx->map[p_y][p_x] = SPACE;
 	}
-	else if (mlx->cobjs->next_cobj->is == 1)
+	else if (mlx->cobjs->is == 1)
 	{
 		mlx->player->score += 100;
 		mlx->map[p_y][p_x] = SPACE;
@@ -42,7 +42,7 @@ void	ft_cobj_t(t_mlx *mlx, int p_x, int p_y, t_cobj *tmp)
 	}
 	else if (mlx->player->hp == 100)
 	{
-		mlx->cobjs = tmp;
 		mlx->cobj_f = 1;
+		mlx->cobjs = tmp;
 	}
 }

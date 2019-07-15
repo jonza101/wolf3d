@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 19:27:42 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 12:59:56 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/15 18:16:44 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	ft_cobjs_draw(t_mlx *mlx)
 	int		oy;
 	t_cobj	*temp;
 
+	if (!mlx->cobjs)
+		return ;
 	temp = mlx->cobjs;
 	while (mlx->cobjs)
 	{

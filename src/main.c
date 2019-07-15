@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/07 15:06:11 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/15 17:56:26 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	ft_init(t_mlx *mlx)
 	ft_init_objects(mlx);
 	ft_init_cobjects(mlx);
 	ft_read_obj(mlx);
+	ft_bzero(mlx->player->wsad, 4);
 	mlx->player->left = 0;
 	mlx->player->right = 0;
 	mlx->dark_switch = 0;

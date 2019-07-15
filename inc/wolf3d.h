@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/07 15:04:51 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/15 18:51:25 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,8 @@ typedef struct		s_mlx
 	int				player_t;
 	int				obj_c;
 	int				cobj_c;
-	int				cobj_index;
 	int				cobj_f;
+	int				cobj_index;
 
 	int				read_i;
 
