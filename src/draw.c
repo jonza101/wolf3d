@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:20:31 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/07 14:56:13 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/15 16:54:34 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,32 @@ void	ft_draw_cross(t_mlx *mlx)
 
 void	ft_draw_interface(t_mlx *mlx)
 {
-	mlx->ammo_str = ft_strdup(ft_itoa(mlx->player->ammo));
-	mlx->score_str = ft_strdup(ft_itoa(mlx->player->score));
-	mlx->hp_str = ft_strdup(ft_itoa(mlx->player->hp));
-	mlx->fov_str = ft_strdup(ft_itoa(mlx->player->fov * 180 / 3.14159));
-	mlx->depth_str = ft_strdup(ft_itoa(mlx->depth));
-	mlx->ammo_str = ft_strjoin("Ammo: ", mlx->ammo_str);
-	mlx->score_str = ft_strjoin("Score: ", mlx->score_str);
-	mlx->hp_str = ft_strjoin("Health: ", mlx->hp_str);
-	mlx->fov_str = ft_strjoin("FOV: ", mlx->fov_str);
-	mlx->depth_str = ft_strjoin("Render Distance: ", mlx->depth_str);
+	char *ammo;
+	char *score;
+	char *hp;
+	char *fov;
+	char *depth;
+
+	ammo = ft_itoa(mlx->player->ammo);
+	score = ft_itoa(mlx->player->score);
+	hp = ft_itoa(mlx->player->hp);
+	fov = ft_itoa(mlx->player->fov * 180 / 3.14159);
+	depth = ft_itoa(mlx->depth);
+	mlx->ammo_str = ft_strjoin("Ammo: ", ammo);
+	mlx->score_str = ft_strjoin("Score: ", score);
+	mlx->hp_str = ft_strjoin("Health: ", hp);
+	mlx->fov_str = ft_strjoin("FOV: ", fov);
+	mlx->depth_str = ft_strjoin("Render Distance: ", depth);
 	mlx_string_put(mlx->mlx, mlx->win, 20, H - 60, 0xFFFFFF, mlx->ammo_str);
 	mlx_string_put(mlx->mlx, mlx->win, 20, H - 40, 0xFFFFFF, mlx->score_str);
 	mlx_string_put(mlx->mlx, mlx->win, 20, H - 80, 0xFFFFFF, mlx->hp_str);
 	mlx_string_put(mlx->mlx, mlx->win, 20, H - 120, 0xFFFFFF, mlx->fov_str);
 	mlx_string_put(mlx->mlx, mlx->win, 20, H - 100, 0xFFFFFF, mlx->depth_str);
+	free(ammo);
+	free(score);
+	free(hp);
+	free(fov);
+	free(depth);
 	free(mlx->ammo_str);
 	free(mlx->score_str);
 	free(mlx->hp_str);
