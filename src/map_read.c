@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:02:51 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/15 18:49:32 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/18 11:26:45 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ int		ft_is_wall(char c)
 			|| c == WW || c == WEAGLE || c == WH || c == BUNKWALL)
 		return (1);
 	return (0);
-}
-
-void	ft_b(t_mlx *mlx)
-{
-	int i = -1;
-	while (++i < mlx->col)
-		printf("%c", mlx->map[0][i]);
 }
 
 void	ft_bound_check(t_mlx *mlx)

@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 19:27:42 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/15 18:16:44 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/18 11:29:13 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void	ft_cobj_sample_calc(t_mlx *mlx, int ox, int oy)
 
 void	ft_cobjs_draw(t_mlx *mlx)
 {
-	int		ox;
-	int		oy;
 	t_cobj	*temp;
 
 	if (!mlx->cobjs)
@@ -74,12 +72,12 @@ void	ft_cobjs_draw(t_mlx *mlx)
 			ft_cobj_specs_calc(mlx);
 			if (mlx->obj_h < H || mlx->obj_w < W)
 			{
-				ox = -1;
-				while (++ox < mlx->obj_w)
+				mlx->ox = -1;
+				while (++mlx->ox < mlx->obj_w)
 				{
-					oy = -1;
-					while (++oy < mlx->obj_h)
-						ft_cobj_sample_calc(mlx, ox, oy);
+					mlx->oy = -1;
+					while (++mlx->oy < mlx->obj_h)
+						ft_cobj_sample_calc(mlx, mlx->ox, mlx->oy);
 				}
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 15:20:31 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/15 17:54:03 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/18 11:24:41 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,24 @@ void	ft_draw_cross(t_mlx *mlx)
 	}
 }
 
+void	ft_putstr_win(t_mlx *mlx)
+{
+	mlx_string_put(mlx->mlx, mlx->win, 20, H - 60, 0xFFFFFF, mlx->ammo_str);
+	mlx_string_put(mlx->mlx, mlx->win, 20, H - 40, 0xFFFFFF, mlx->score_str);
+	mlx_string_put(mlx->mlx, mlx->win, 20, H - 80, 0xFFFFFF, mlx->hp_str);
+	mlx_string_put(mlx->mlx, mlx->win, 20, H - 120, 0xFFFFFF, mlx->fov_str);
+	mlx_string_put(mlx->mlx, mlx->win, 20, H - 100, 0xFFFFFF, mlx->depth_str);
+}
+
+void	ft_free(t_mlx *mlx)
+{
+	free(mlx->ammo_str);
+	free(mlx->score_str);
+	free(mlx->hp_str);
+	free(mlx->fov_str);
+	free(mlx->depth_str);
+}
+
 void	ft_draw_interface(t_mlx *mlx)
 {
 	char *ammo;
@@ -55,19 +73,11 @@ void	ft_draw_interface(t_mlx *mlx)
 	mlx->hp_str = ft_strjoin("Health: ", hp);
 	mlx->fov_str = ft_strjoin("FOV: ", fov);
 	mlx->depth_str = ft_strjoin("Render Distance: ", depth);
-	mlx_string_put(mlx->mlx, mlx->win, 20, H - 60, 0xFFFFFF, mlx->ammo_str);
-	mlx_string_put(mlx->mlx, mlx->win, 20, H - 40, 0xFFFFFF, mlx->score_str);
-	mlx_string_put(mlx->mlx, mlx->win, 20, H - 80, 0xFFFFFF, mlx->hp_str);
-	mlx_string_put(mlx->mlx, mlx->win, 20, H - 120, 0xFFFFFF, mlx->fov_str);
-	mlx_string_put(mlx->mlx, mlx->win, 20, H - 100, 0xFFFFFF, mlx->depth_str);
+	ft_putstr_win(mlx);
 	free(ammo);
 	free(score);
 	free(hp);
 	free(fov);
 	free(depth);
-	free(mlx->ammo_str);
-	free(mlx->score_str);
-	free(mlx->hp_str);
-	free(mlx->fov_str);
-	free(mlx->depth_str);
+	ft_free(mlx);
 }
