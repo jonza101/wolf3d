@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/18 11:28:34 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/20 14:22:42 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	ft_init(t_mlx *mlx)
 	ft_init_objects(mlx);
 	ft_init_cobjects(mlx);
 	ft_read_obj(mlx);
+	ft_free_toc(mlx);
 	ft_bzero(mlx->player->wsad, 4);
 	mlx->player->left = 0;
 	mlx->player->right = 0;
@@ -95,6 +96,7 @@ int		main(int argc, char **argv)
 										? ft_mem_error() : 1;
 	mlx->map_file = ft_strdup(argv[1]);
 	ft_read_map(mlx->map_file, mlx);
+	ft_strdel(&mlx->map_file);
 	mlx->mlx = mlx_init();
 	mlx->img = mlx_new_image(mlx->mlx, W, H);
 	ft_init(mlx);

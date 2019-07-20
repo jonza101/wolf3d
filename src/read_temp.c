@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 14:58:04 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 13:00:33 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/20 14:27:20 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,17 @@ void	ft_cobj_tmp(t_mlx *mlx, int i, int j)
 	}
 }
 
-void	ft_read_init(t_mlx *mlx, char *line)
+void	ft_free_tmp(t_mlx *mlx)
+{
+	ft_strdel(&mlx->line);
+	mlx->read_i = -1;
+}
+
+void	ft_read_init(t_mlx *mlx)
 {
 	mlx->read_i = 0;
-	mlx->col = ft_strlen(line);
+	mlx->col = ft_strlen(mlx->line);
+	ft_strdel(&mlx->line);
 	mlx->row = 1;
 	mlx->obj_count = 0;
 	mlx->cobj_count = 0;

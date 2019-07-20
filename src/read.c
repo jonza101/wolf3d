@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:03:30 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/15 18:54:44 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/20 15:19:19 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ void	ft_mem_error(void)
 void	ft_on_item_tail(t_mlx *mlx, int p_x, int p_y)
 {
 	int		i;
-	t_cobj	*temp;
 	t_cobj	*tmp;
-	t_cobj	*asd;
+	t_cobj	*cobj_t;
 
 	i = 1;
 	mlx->cobj_f = 0;
@@ -31,14 +30,13 @@ void	ft_on_item_tail(t_mlx *mlx, int p_x, int p_y)
 	while (mlx->cobjs->next_cobj && ((int)mlx->cobjs->next_cobj->x != p_x
 			|| (int)mlx->cobjs->next_cobj->y != p_y))
 		mlx->cobjs = mlx->cobjs->next_cobj;
-	asd = mlx->cobjs;
+	cobj_t = mlx->cobjs;
 	mlx->cobjs = mlx->cobjs->next_cobj;
 	ft_cobj_t(mlx, p_x, p_y, tmp);
 	if (mlx->cobj_f)
 		return ;
-	temp = mlx->cobjs->next_cobj;
+	cobj_t->next_cobj = mlx->cobjs->next_cobj;
 	free(mlx->cobjs);
-	asd->next_cobj = temp;
 	mlx->cobjs = tmp;
 }
 
@@ -61,7 +59,6 @@ void	ft_on_item_head(t_mlx *mlx, int p_x, int p_y)
 		ft_cobj_tmp_hp(mlx, p_x, p_y);
 	else if (mlx->player->hp == 100)
 		return ;
-	free(mlx->cobjs);
 	mlx->cobjs = temp->next_cobj;
 }
 

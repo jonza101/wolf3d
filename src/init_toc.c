@@ -6,11 +6,29 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 17:06:11 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/07 13:52:50 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/20 14:26:57 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/wolf3d.h"
+
+void	ft_free_toc(t_mlx *mlx)
+{
+	int i;
+
+	i = -1;
+	while (++i < TILES)
+		free(mlx->tiles[i]);
+	i = -1;
+	while (++i < OBJ)
+		free(mlx->obj[i]);
+	i = -1;
+	while (++i < COBJ)
+		free(mlx->cobj[i]);
+	i = -1;
+	while (++i < 3)
+		free(mlx->dark_tiles[i]);
+}
 
 void	ft_init_cobjects(t_mlx *mlx)
 {

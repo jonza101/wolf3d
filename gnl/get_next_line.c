@@ -6,78 +6,77 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 14:49:08 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2018/12/07 13:42:58 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/20 14:15:37 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_cut_line(char **temp, int fd, char **line, int len)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	while (temp[fd][i] && temp[fd][i] != '\n')
-		i++;
-	if (temp[fd][i] == '\n')
-	{
-		*line = ft_strsub(temp[fd], 0, i);
-		str = ft_strdup(&temp[fd][i + 1]);
-		free(temp[fd]);
-		temp[fd] = ft_strdup(str);
-		free(str);
-		if (!temp[fd][0])
-			ft_strdel(&temp[fd]);
-	}
-	else if (!temp[fd][i])
-	{
-		if (len == BUFF_SIZE)
-			get_next_line(fd, line);
-		*line = ft_strdup(temp[fd]);
-		ft_strdel(&temp[fd]);
-	}
-}
-
-int		ft_newline_check(char *buff)
+void	ft_strchr_(char *s, int c)
 {
 	int i;
 
 	i = 0;
-	while (buff[i])
+	while (s[i] != (char)c && s[i] != 0)
+		s++;
+	if (s[i] == (char)c)
+		s[i] = 0;
+}
+
+void	ft_strzero(char *input, int len)
+{
+	while (len--)
+		input[len] = 0;
+}
+
+int		str_process(char *input, char **result)
+{
+	char		*tmp;
+	char		*tmp2;
+
+	if (ft_strrchr(input, '\n'))
 	{
-		if (buff[i] == '\n')
-			return (0);
-		i++;
+		tmp = ft_strdup(input);
+		input = ft_strcpy(input, &ft_strchr(input, '\n')[1]);
+		ft_strchr_(tmp, 10);
+		tmp2 = *result;
+		*result = ft_strjoin(*result, tmp);
+		free(tmp);
+		free(tmp2);
+		return (1);
 	}
-	return (1);
+	else
+	{
+		tmp = *result;
+		*result = ft_strjoin(*result, input);
+		free(tmp);
+		ft_strzero(input, BUFF_SIZE);
+		return (0);
+	}
 }
 
 int		get_next_line(const int fd, char **line)
 {
-	static	char	*temp[1];
-	char			*buff;
-	char			*t;
-	int				len;
+	static char	*buff[4096];
+	int			ret;
 
-	if (fd < 0 || line == NULL || !(buff = (char*)malloc(BUFF_SIZE + 1)))
+	if (fd < 0 || !line || BUFF_SIZE <= 0)
 		return (-1);
-	while ((len = read(fd, buff, BUFF_SIZE)) > 0)
+	if (!buff[fd])
+		buff[fd] = ft_strnew(BUFF_SIZE);
+	*line = ft_strnew(0);
+	if (*buff[fd])
+		if (str_process(buff[fd], line))
+			return (1);
+	ft_strzero(buff[fd], BUFF_SIZE);
+	while ((ret = read(fd, buff[fd], BUFF_SIZE)))
 	{
-		buff[len] = '\0';
-		if (temp[fd] == NULL)
-			temp[fd] = ft_strnew(1);
-		t = ft_strjoin(temp[fd], buff);
-		free(temp[fd]);
-		temp[fd] = t;
-		if (ft_newline_check(buff) == 0)
-			break ;
+		if (ret < 0)
+			return (-1);
+		if (str_process(buff[fd], line))
+			return (1);
 	}
-	if (len < 0)
-		return (-1);
-	if (len == 0 && (temp[fd] == NULL || temp[fd][0] == '\0'))
+	if (**line == 0)
 		return (0);
-	free(buff);
-	ft_cut_line(temp, fd, line, len);
 	return (1);
 }

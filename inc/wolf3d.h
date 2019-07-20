@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:33:53 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/18 11:28:50 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/20 14:27:34 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,8 @@ typedef struct		s_mlx
 	int				ox;
 	int				oy;
 
+	char			*line;
+
 	int				read_i;
 
 	t_player		*player;
@@ -258,6 +260,7 @@ int					ft_tiles_check(char **map, int t_x, int t_y);
 int					ft_get_tile_index(char c);
 
 void				ft_obj_check(t_mlx *mlx, char *line);
+void				ft_free_tmp(t_mlx *mlx);
 int					ft_obj_check_c(char c);
 int					ft_is_obj_phys(char c);
 int					ft_is_obj_lamp(char c);
@@ -291,7 +294,7 @@ void				ft_map_error(void);
 void				ft_player_tmp(t_mlx *mlx, int i, int j);
 void				ft_obj_tmp(t_mlx *mlx, int i, int j);
 void				ft_cobj_tmp(t_mlx *mlx, int i, int j);
-void				ft_read_init(t_mlx *mlx, char *line);
+void				ft_read_init(t_mlx *mlx);
 
 void				ft_init_obj_sprites(t_mlx *mlx);
 void				ft_init_obj_sprites_t(t_mlx *mlx);
@@ -315,8 +318,6 @@ int					ft_cobj_check(char c);
 int					ft_is_obj_phys(char c);
 int					ft_obj_check_c(char c);
 
-void				ft_obj_check(t_mlx *mlx, char *line);
-
 int					ft_tiles_check(char **map, int p_x, int p_y);
 int					ft_walls_check(char **map, int player_x, int player_y);
 
@@ -334,5 +335,7 @@ void				ft_hit_calc(t_mlx *mlx);
 void				ft_sort(t_mlx *mlx);
 
 void				ft_move_calc(t_mlx *mlx);
+
+void				ft_free_toc(t_mlx *mlx);
 
 #endif

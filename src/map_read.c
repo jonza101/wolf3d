@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 20:02:51 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/18 11:26:45 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/20 15:16:46 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,27 +80,28 @@ void	ft_read_obj(t_mlx *mlx)
 void	ft_read_map(char *map, t_mlx *mlx)
 {
 	int		fd;
-	char	*line;
 
 	((fd = open(map, O_RDONLY)) < 0) ? ft_map_error() : 1;
-	(get_next_line(fd, &line) <= 0) ? ft_map_error() : 1;
-	ft_read_init(mlx, line);
-	while (get_next_line(fd, &line) == 1)
+	(get_next_line(fd, &mlx->line) <= 0) ? ft_map_error() : 1;
+	ft_read_init(mlx);
+	while (get_next_line(fd, &mlx->line))
 	{
-		((int)ft_strlen(line) != mlx->col) ? ft_map_error() : 1;
-		ft_obj_check(mlx, line);
+		((int)ft_strlen(mlx->line) != mlx->col) ? ft_map_error() : 1;
+		ft_obj_check(mlx, mlx->line);
 		mlx->row++;
 		mlx->read_i++;
+		ft_strdel(&mlx->line);
 	}
-	free(line);
 	close(fd);
-	mlx->read_i = -1;
+	ft_free_tmp(mlx);
 	fd = open(map, O_RDONLY);
-	mlx->map = (char**)malloc(sizeof(char*) * mlx->row);
+	!(mlx->map = (char**)malloc(sizeof(char*) * mlx->row)) ? ft_mem_error() : 1;
 	while (++mlx->read_i < mlx->row)
 	{
-		(get_next_line(fd, &line) != 1) ? ft_map_error() : 1;
-		mlx->map[mlx->read_i] = ft_strdup(line);
+		(get_next_line(fd, &mlx->line) < 0) ? ft_map_error() : 1;
+		mlx->map[mlx->read_i] = ft_strdup(mlx->line);
+		ft_strdel(&mlx->line);
 	}
+	ft_strdel(&mlx->line);
 	close(fd);
 }
