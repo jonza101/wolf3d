@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 14:40:07 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/20 14:22:42 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:02:31 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ void	ft_key_temp(int keycode, t_mlx *mlx)
 		mlx->player->wsad[2] = 1;
 	if (keycode == MAC_D)
 		mlx->player->wsad[3] = 1;
+	if (keycode == MAC_NUM_MINUS && mlx->player->hp > 5)
+	{
+		mlx->player->hp -= 5;
+		if (mlx->player->hp < 5)
+			mlx->player->hp = 5;
+	}
+	if (keycode == MAC_NUM_PLUS && mlx->player->hp < 100)
+	{
+		mlx->player->hp += 5;
+		if (mlx->player->hp > 100)
+			mlx->player->hp = 100;
+	}
 }
 
 int		ft_key_press(int keycode, t_mlx *mlx)
@@ -53,10 +65,6 @@ int		ft_key_press(int keycode, t_mlx *mlx)
 	if (keycode == MAC_RIGHT)
 		mlx->player->right = 1;
 	ft_key_temp(keycode, mlx);
-	if (keycode == MAC_NUM_MINUS && mlx->player->hp > 5)
-		mlx->player->hp -= 5;
-	if (keycode == MAC_NUM_PLUS && mlx->player->hp < 100)
-		mlx->player->hp += 5;
 	if (keycode == MAC_COMMA && mlx->depth > 16)
 		mlx->depth--;
 	if (keycode == MAC_DOT && mlx->depth < 64)

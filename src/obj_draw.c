@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 19:00:21 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/03 13:00:25 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:19:50 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,13 @@ void	ft_obj_pos_calc(t_mlx *mlx, int i)
 
 void	ft_obj_specs_calc(t_mlx *mlx, int i)
 {
-	mlx->obj_ceiling = (double)(H / 2.0) - (double)H
-							/ (double)mlx->dist_from_player
-							/ mlx->player->fov;
+	mlx->obj_ceiling = (double)(H / 2.0) - (double)H / (double)mlx->dist_from_player / mlx->player->fov;
 	mlx->obj_floor = (double)H - (double)mlx->obj_ceiling;
 	mlx->obj_h = (double)mlx->obj_floor - (double)mlx->obj_ceiling;
 	mlx->obj_aspect_ratio = (double)mlx->objs[mlx->sprite_order[i]]->img->w
 							/ (double)mlx->objs[mlx->sprite_order[i]]->img->h;
 	mlx->obj_w = (double)mlx->obj_h / (double)mlx->obj_aspect_ratio;
-	mlx->obj_middle = (double)(0.5 * (mlx->obj_angle
-							/ (mlx->player->fov / 2.0)) + 0.5) * (double)W;
+	mlx->obj_middle = (double)(0.5 * (mlx->obj_angle / (mlx->player->fov / 2.0)) + 0.5) * (double)W;
 }
 
 void	ft_obj_sample_calc(t_mlx *mlx, int ox, int oy, int i)

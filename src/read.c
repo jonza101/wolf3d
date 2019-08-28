@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 21:03:30 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/07/20 15:19:19 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/08/28 20:26:40 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_on_item_tail(t_mlx *mlx, int p_x, int p_y)
 	if (mlx->cobj_f)
 		return ;
 	cobj_t->next_cobj = mlx->cobjs->next_cobj;
+	free(mlx->cobjs->img);
 	free(mlx->cobjs);
 	mlx->cobjs = tmp;
 }
@@ -59,6 +60,8 @@ void	ft_on_item_head(t_mlx *mlx, int p_x, int p_y)
 		ft_cobj_tmp_hp(mlx, p_x, p_y);
 	else if (mlx->player->hp == 100)
 		return ;
+	free(mlx->cobjs->img);
+	free(mlx->cobjs);
 	mlx->cobjs = temp->next_cobj;
 }
 
